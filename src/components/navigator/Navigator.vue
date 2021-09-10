@@ -25,7 +25,7 @@ export default {
     name: 'Navigator',
     data() {
         return {
-            isLogin: false
+            isLogin: true
         }
     },
 

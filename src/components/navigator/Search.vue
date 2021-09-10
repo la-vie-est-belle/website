@@ -1,6 +1,6 @@
 <template>
     <div class="search">
-        <input type="text" class="search-input" placeholder="请输入搜索内容">
+        <input type="text" class="search-input" placeholder="请输入搜索内容" v-model.trim="keyword">
         <router-link @click="search" to="/search">
             <img src="@/assets/search.png" class="search-icon">
         </router-link>
@@ -10,12 +10,17 @@
 <script>
 export default {
     data() {
-
+        return {
+            keyword: '',
+        }
     },
 
     methods: {
         search() {
-            console.log('1111')
+            if (this.keyword != this.$route.query.kwd) {
+                this.$router.push({path: '/search', query: {kwd: this.keyword}})
+            }
+            this.keyword = ''
         }
     }
 }
