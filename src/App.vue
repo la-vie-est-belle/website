@@ -1,10 +1,20 @@
 <template>
+  <Navigator />
   <div id="nav">
     <router-link to="/">Home</router-link> |
     <router-link to="/about">About</router-link>
   </div>
   <router-view/>
 </template>
+
+<script>
+import Navigator from './components/navigator/Navigator.vue'
+export default {
+  components: {
+    Navigator
+  }
+}
+</script>
 
 <style>
 #app {
