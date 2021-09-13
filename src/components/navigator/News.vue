@@ -1,10 +1,10 @@
 <template>
     <div class="news">
         <a href="javascript:;">
-            <img src="@/assets/notification.png" width="25" height="25">
+            <img src="@/assets/navigator/notification.png" width="25" height="25">
         </a>
         <a href="javascript:;">
-            <img src="@/assets/message.png" width="25" height="25">
+            <img src="@/assets/navigator/message.png" width="25" height="25">
         </a>
     </div>
 </template>

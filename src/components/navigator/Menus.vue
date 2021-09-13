@@ -1,6 +1,6 @@
 <template>
     <div class="links">
-        <router-link :class="{active: index==currentIndex}" v-for="(item, index) in links" :to="item.path" :key="item.id" @click="go(index)">{{ item.name }}</router-link>
+        <router-link :style="item.path==$route.path ? clickedStyle: ''" v-for="item in links" :to="item.path" :key="item.id">{{ item.name }}</router-link>
     </div>
 </template>
 
@@ -8,24 +8,22 @@
 export default {
     data() {
         return {
-            currentIndex: 0,
             links: [
-                {id: 0, path: '/', name: '首页'},
+                {id: 0, path: '/home', name: '首页'},
                 {id: 1, path: '/blog', name: '博客'},
                 {id: 2, path: '/store', name: '商店'},
                 {id: 3, path: '/widget', name: '功能'},
-                {id: 4, path: '/order', name: '接单'},
-                {id: 5, path: '/donate', name: '捐助名单'},
-                {id: 6, path: '/egg', name: '网站彩蛋'},
-            ]
+                // {id: 4, path: '/order', name: '接单'},
+                // {id: 5, path: '/donate', name: '捐助名单'},
+                {id: 6, path: '/egg', name: '彩蛋'},
+            ],
+
+            clickedStyle: {
+                fontWeight: 'bold',
+                color: '#0066ff'
+            }
         }
     },
-
-    methods: {
-        go(index) {
-            this.currentIndex = index
-        }
-    }
 }
 </script>
 
@@ -37,16 +35,18 @@ export default {
     }
 
     a {
+        color: gray;
         font-size: 16px;
         margin-right: 20px;
         text-decoration: none;
     }
 
-    a:visited {
-        color: #0066ff;
+    a:hover {
+        opacity: 0.8;
     }
 
-    .active {
+    a:visited {
+        color: gray;
         font-weight: bold;
     }
 </style>
