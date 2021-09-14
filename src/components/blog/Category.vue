@@ -38,7 +38,7 @@ export default {
         text-align: center;
         padding-left: 20px;
         padding-right: 20px;
-        float: right;
+        margin-bottom: 10px;
         border: whitesmoke 1px solid;
         background: white;
         border-radius: 5px;
@@ -63,6 +63,10 @@ export default {
         border: whitesmoke 1px solid;
         border-radius: 5px;
         box-shadow: 0px 1px 1px 0 rgba(0, 0, 0, 0.2);
+    }
+
+    .content:hover {
+        transform: scale(1.1);
     }
 
     .name {

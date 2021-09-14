@@ -46,7 +46,7 @@ export default {
         text-align: center;
         padding-left: 20px;
         padding-right: 20px;
-        float: right;
+        margin-bottom: 10px;
         border: whitesmoke 1px solid;
         background: white;
         border-radius: 5px;

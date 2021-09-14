@@ -5,13 +5,17 @@
     <router-link to="/about">About</router-link>
   </div>
   <router-view/>
+  <Footer />
 </template>
 
 <script>
-import Navigator from './components/navigator/Navigator.vue'
+import Navigator from '@/components/navigator/Navigator.vue'
+import Footer from '@/components/footer/Footer.vue'
+
 export default {
   components: {
-    Navigator
+    Navigator,
+    Footer
   }
 }
 </script>
