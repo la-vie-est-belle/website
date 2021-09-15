@@ -35,7 +35,7 @@ export default {
     }
 
     a {
-        color: gray;
+        color: #2c3e50;
         font-size: 16px;
         margin-right: 20px;
         text-decoration: none;
@@ -46,7 +46,7 @@ export default {
     }
 
     a:visited {
-        color: gray;
+        color: #2c3e50;
         font-weight: bold;
     }
 </style>

@@ -22,7 +22,17 @@ const routes = [
     component: () => import(/* webpackChunkName: "blog" */ '../views/Blog.vue'),
     meta: {
       title: '博客'
-    }
+    },
+    children: [
+      {
+        path: '/blog',
+        component: () => import(/* webpackChunkName: "blog" */ '@/components/blog/ArticleAbstract.vue'),
+      },
+      {
+        path: '/blog/:id',
+        component: () => import(/* webpackChunkName: "blog" */ '@/components/blog/ArticleDetail.vue'),
+      },
+    ]
   },
   {
     path: '/store',

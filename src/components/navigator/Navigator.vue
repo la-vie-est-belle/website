@@ -1,16 +1,18 @@
 <template>
-    <nav>
-        <Logo />
-        <Menus />
-        <Search />
-        <div v-if="isLogin">
-            <News />
-            <Avatar />
-        </div>
-        <div v-else>
-            <Login />
-        </div>
-    </nav>
+    <div>
+        <nav>
+            <Logo />
+            <Menus />
+            <Search />
+            <div v-if="isLogin">
+                <News />
+                <Avatar />
+            </div>
+            <div v-else>
+                <Login />
+            </div>
+        </nav>
+    </div>
 </template>
 
 <script>

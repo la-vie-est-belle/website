@@ -5,11 +5,12 @@
         </div>
         <div class="content">
             <div class="sidebar">
-                <Category />
                 <Count />
+                <Category />
+                <OtherLinks />
             </div>
             <div class="article-area">
-                <ArticleArea />
+                <router-view />
             </div>
         </div>
         
@@ -20,7 +21,7 @@
 import Introduction from '@/components/blog/Introduction.vue'
 import Category from '@/components/blog/Category.vue'
 import Count from '@/components/blog/Count.vue'
-import ArticleArea from '@/components/blog/ArticleArea.vue'
+import OtherLinks from '@/components/blog/OtherLinks.vue'
 
 export default {
     name: 'Blog',
@@ -28,7 +29,7 @@ export default {
         Introduction,
         Category,
         Count,
-        ArticleArea
+        OtherLinks
     }
 }
 </script>
@@ -38,13 +39,15 @@ export default {
         width: 100%;
     }
 
+    .content {
+        display: flex;
+    }
+
     .sidebar {
-        float: left;
         margin-left: 200px;
     }
 
     .article-area {
-        float: right;
-        margin-right: 102px;
+        margin-left: 10px;
     }
 </style>

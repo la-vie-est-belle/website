@@ -16,6 +16,10 @@ export default {
     .avatar {
         float: right;
         margin-right: -130px;
-        margin-top: 10px
+        margin-top: 10px;
+    }
+
+    .avatar:hover {
+        transform: scale(1.1)
     }
 </style>

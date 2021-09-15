@@ -1,8 +1,6 @@
 <template>
-  <Navigator />
   <div id="nav">
-    <router-link to="/">Home</router-link> |
-    <router-link to="/about">About</router-link>
+      <Navigator />
   </div>
   <router-view/>
   <Footer />
@@ -24,6 +22,7 @@ export default {
 html {
   background-color: whitesmoke;
 }
+
 #app {
   font-family: Avenir, Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
@@ -33,17 +32,6 @@ html {
 }
 
 #nav {
-  padding: 30px;
+  padding: 40px;
 }
-
-#nav a {
-  font-weight: bold;
-  color: #2c3e50;
-}
-
-#nav a.router-link-exact-active {
-  color: #42b983;
-}
-
-
 </style>

@@ -1,10 +1,10 @@
 <template>
-    <div class="article">
+    <div v-for="item in [1, 2, 3, 4, 5, 6]" :key="item.key" class="article-abstract">
         <div class="title">
-            <h3>快速掌握PyQt5</h3>
+            <router-link to="/blog/2134"><h3>快速掌握PyQt5</h3></router-link>
         </div>
-        <div class="abstract">
-            <p>写在前面：因为太喜欢Python和Qt了，所以想开始慢慢写一些有关PyQt5的知识点。刚开始会介绍各个控件的使用，之后会进行实战操作，相信学完本系列对大家的兼职/外快事业会有帮助。所有的篇章不会有太多冗余，干货最重要。读者当然可以把这系列当作一个工具书来使用，希望能帮到大家。注：</p>
+        <div class="intro">
+            <p>写在前面：因为太喜欢Python和Qt了，所以想开始慢慢写一些有关PyQt5的知识点。刚开始会介绍各个控件的使用，之后会进行实战操作，相信学完本系列对大家的兼职/外快事业会有帮助。所有的篇章不会有太多冗余，干货最重要。读者当然可以把这系列当作一个工具书来使......</p>
         </div>
         <div class="func">
             <span class="time">2020-03-27 19:57:14</span>
@@ -29,7 +29,8 @@ export default {
 </script>
 
 <style scoped>
-    .article {
+    .article-abstract {
+        width: 720px;
         text-align: left;
         padding-left: 20px;
         padding-right: 20px;
@@ -41,6 +42,10 @@ export default {
         box-shadow: 0px 1px 3px 0 rgba(0, 0, 0, 0.2);
     }
 
+    .intro {
+        text-align: justify;
+    }
+
     span {
         padding-right: 20px;
         opacity: 0.7;
@@ -48,5 +53,14 @@ export default {
 
     img {
         padding-right: 2px;
+    }
+
+    .title:hover {
+        opacity: 0.7;
+    }
+
+    a {
+        text-decoration: none;
+        color: black;
     }
 </style>
