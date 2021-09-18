@@ -35,6 +35,14 @@ const routes = [
     ]
   },
   {
+    path: '/blog/compose',
+    name: 'blog-compose',
+    meta: {
+      title: '写作'
+    },
+    component: () => import(/* webpackChunkName: "blog" */ '@/components/blog/Compose.vue'),
+  },
+  {
     path: '/store',
     name: 'store',
     component: () => import(/* webpackChunkName: "store" */ '../views/Store.vue'),

@@ -13,7 +13,6 @@
                 <router-view />
             </div>
         </div>
-        
     </div>
 </template>
 
@@ -29,7 +28,7 @@ export default {
         Introduction,
         Category,
         Count,
-        OtherLinks
+        OtherLinks,
     }
 }
 </script>

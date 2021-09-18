@@ -8,6 +8,9 @@
     "lint": "vue-cli-service lint"
   },
   "dependencies": {
+    "@ckeditor/ckeditor5-build-classic": "^29.2.0",
+    "@ckeditor/ckeditor5-code-block": "^29.2.0",
+    "@ckeditor/ckeditor5-vue": "^2.0.1",
     "axios": "^0.21.4",
     "core-js": "^3.6.5",
     "vue": "^3.0.0",

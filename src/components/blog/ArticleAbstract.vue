@@ -9,8 +9,8 @@
         <div class="func">
             <span class="time">2020-03-27 19:57:14</span>
             <span class="visit"><img src="@/assets/blog/visit.png" width="18" height="13">1000</span>
-            <span class="comment"><img src="@/assets/blog/comment.png" width="18" height="13">12</span>
-            <span class="thumb-up"><img src="@/assets/blog/thumb-up.png" width="17" height="17">55</span>
+            <span class="comment"><img src="@/assets/blog/comment.png" width="18" height="14">12</span>
+            <span class="thumb-up"><img src="@/assets/blog/thumb-up.png" width="17" height="15">55</span>
         </div>
     </div>
 </template>
@@ -30,7 +30,7 @@ export default {
 
 <style scoped>
     .article-abstract {
-        width: 720px;
+        width: 700px;
         text-align: left;
         padding-left: 20px;
         padding-right: 20px;

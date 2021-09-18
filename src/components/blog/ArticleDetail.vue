@@ -20,14 +20,22 @@
             </p>
            
         </div>
-        <div class="func">
-            <span class="visit"><img src="@/assets/blog/visit.png" width="18" height="13">1000</span>
-            <span class="comment"><a href="javascript:;"><img src="@/assets/blog/comment.png" width="18" height="13">12</a></span>
-            <span class="thumb-up"><a href="javascript:;"><img src="@/assets/blog/thumb-up.png" width="17" height="17">55</a></span>
+        <div class="article-bottom">
+            <div class="category">
+                <span class="category-item">Python</span>
+                <span class="category-item">PyQt5</span>
+                <span class="category-item">GUI</span>
+            </div>
+            <div class="func">
+                <span class="visit"><img src="@/assets/blog/visit.png" width="18" height="13">1000</span>
+                <span class="comment"><a href="javascript:;"><img src="@/assets/blog/comment.png" width="18" height="14">12</a></span>
+                <span class="thumb-up"><a href="javascript:;"><img src="@/assets/blog/thumb-up.png" width="17" height="15">55</a></span>
+            </div>
         </div>
-        <div class="comment">
-            <Comment />
-        </div>
+        
+    </div>
+    <div class="comment-area">
+        <Comment />
     </div>
 </template>
 
@@ -47,12 +55,12 @@ export default {
         text-align: justify;
         padding-left: 20px;
         padding-right: 20px;
+        padding-bottom: 10px;
         border: whitesmoke 1px solid;
         background: white;
         border-radius: 5px;
         box-shadow: 0px 1px 3px 0 rgba(0, 0, 0, 0.2);
     }
-
 
     hr {
         margin-top: -10px;
@@ -69,6 +77,26 @@ export default {
         text-align: left;
     }
 
+    .article-bottom {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+    }
+
+    .category-item {
+        cursor: pointer;
+        border: whitesmoke 1px solid;
+        border-radius: 5px;
+        box-shadow: 0px 1px 1px 0 rgba(0, 0, 0, 0.2);
+        margin-right: 4px;
+        padding-left: 5px;
+        padding-right: 5px;
+    }
+
+    .category-item:hover {
+        font-weight: bold;
+    }
+    
     .visit, .comment, .thumb-up {
         padding-left: 20px;
         opacity: 0.7;

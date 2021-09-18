@@ -15,7 +15,7 @@ export default {
 <style scoped>
     .avatar {
         float: right;
-        margin-right: -130px;
+        margin-right: -140px;
         margin-top: 10px;
     }
 
