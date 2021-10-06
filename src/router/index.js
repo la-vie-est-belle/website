@@ -17,6 +17,14 @@ const routes = [
     }
   },
   {
+    path: '/search',
+    name: 'search',
+    component: () => import(/* webpackChunkName: "search" */ '../views/Search.vue'),
+    meta: {
+      title: '搜索'
+    }
+  },
+  {
     path: '/blog',
     name: 'blog',
     component: () => import(/* webpackChunkName: "blog" */ '../views/Blog.vue'),
@@ -29,7 +37,7 @@ const routes = [
         component: () => import(/* webpackChunkName: "blog" */ '@/components/blog/ArticleAbstract.vue'),
       },
       {
-        path: '/blog/:id',
+        path: '/blog/:id(\\d+)',
         component: () => import(/* webpackChunkName: "blog" */ '@/components/blog/ArticleDetail.vue'),
       },
     ]

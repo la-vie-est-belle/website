@@ -1,7 +1,10 @@
 <template>
     <div class="article-detail">
         <div class="title">
-            <h2>快速掌握PyQt5</h2>
+            <div class="title-edit">
+                <h2>快速掌握PyQt5</h2>
+                <span class="edit"><a href="javascript:;"><img src="@/assets/blog/write.png" width="18" height="18"></a></span>
+            </div>
             <span class="time">2020-03-27 19:57:14</span>
         </div>
         <hr>
@@ -75,6 +78,20 @@ export default {
         justify-content:space-between;
         align-items: center;
         text-align: left;
+    }
+
+    .title-edit {
+        display: flex;
+        align-items: center;
+    }
+
+    .edit {
+        margin-left: 10px;
+        margin-top: 5px
+    }
+
+    .edit:hover {
+        transform: scale(1.1);
     }
 
     .article-bottom {

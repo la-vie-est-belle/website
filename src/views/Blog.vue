@@ -10,7 +10,7 @@
                 <OtherLinks />
             </div>
             <div class="article-area">
-                <router-view />
+                <router-view :abstracts="articles"></router-view>
             </div>
         </div>
     </div>
@@ -29,7 +29,30 @@ export default {
         Category,
         Count,
         OtherLinks,
-    }
+    },
+
+    data() {
+        return {
+            articles: null,
+        }
+    },
+
+    mounted() {
+        this.getArticles()
+    },
+
+    methods: {
+        getArticles() {
+            this.axios.get('/blog').then((res) => {
+                if (res.status == 200) {
+                    this.articles = res.data
+                    console.log(typeof(res.data))
+                    console.log(this.articles)
+                }
+            })
+            .catch((error) => console.log(error))
+        }
+    },
 }
 </script>
 

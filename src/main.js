@@ -10,3 +10,5 @@ app.use(store)
 app.use(router)
 app.use(VueAxios, axios)
 app.mount('#app')
+
+axios.defaults.baseURL = '/'

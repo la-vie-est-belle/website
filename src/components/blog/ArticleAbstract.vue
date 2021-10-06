@@ -1,16 +1,16 @@
 <template>
-    <div v-for="item in [1, 2, 3, 4, 5, 6]" :key="item.key" class="article-abstract">
+    <div v-for="item in abstracts" :key="item.id" class="article-abstract">
         <div class="title">
-            <router-link to="/blog/2134"><h3>快速掌握PyQt5</h3></router-link>
+            <router-link :to="'/blog/'+item.id"><h3>{{ item.title }}</h3></router-link>
         </div>
         <div class="intro">
-            <p>写在前面：因为太喜欢Python和Qt了，所以想开始慢慢写一些有关PyQt5的知识点。刚开始会介绍各个控件的使用，之后会进行实战操作，相信学完本系列对大家的兼职/外快事业会有帮助。所有的篇章不会有太多冗余，干货最重要。读者当然可以把这系列当作一个工具书来使......</p>
+            <p>{{ item.content.substring(0, 200).trim() }}...</p>
         </div>
         <div class="func">
-            <span class="time">2020-03-27 19:57:14</span>
-            <span class="visit"><img src="@/assets/blog/visit.png" width="18" height="13">1000</span>
-            <span class="comment"><img src="@/assets/blog/comment.png" width="18" height="14">12</span>
-            <span class="thumb-up"><img src="@/assets/blog/thumb-up.png" width="17" height="15">55</span>
+            <span class="time">{{ item.createTime }}</span>
+            <span class="visit"><img src="@/assets/blog/visit.png" width="18" height="13">{{ item.visitCount }}</span>
+            <span class="comment"><img src="@/assets/blog/comment.png" width="18" height="14">{{ item.comments.length }}</span>
+            <span class="thumb-up"><img src="@/assets/blog/thumb-up.png" width="17" height="15">{{ item.thumbUpCount }}</span>
         </div>
     </div>
 </template>
@@ -18,13 +18,15 @@
 <script>
 export default {
     props: {
-        title: String,
-        abstract: String,
-        publishTime: String,
-        visitCount: Number,
-        commentCount: Number,
-        thumbUpCount: Number
-    }
+        abstracts: Array
+    },
+
+    watch: {
+        abstracts: function(val) {
+            console.log('111')
+            console.log(val)
+        }
+    },
 }
 </script>
 
@@ -44,6 +46,9 @@ export default {
 
     .intro {
         text-align: justify;
+        /* white-space: nowrap; */
+        /* overflow: 20px;
+        text-overflow: ellipsis;  */
     }
 
     span {

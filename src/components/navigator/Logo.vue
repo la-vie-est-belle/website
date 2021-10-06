@@ -12,7 +12,7 @@ import widgetLogo from '../../assets/navigator/widget-logo.png'
 import eggLogo from '../../assets/navigator/egg-logo.png'
 
 export default {
-    data() {
+    data() {    
         return {
             logos: {
                 home: {name: '仍梦的网站', pic: homeLogo},
