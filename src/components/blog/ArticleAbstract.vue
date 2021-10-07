@@ -1,5 +1,5 @@
 <template>
-    <div v-for="item in abstracts" :key="item.id" class="article-abstract">
+    <div v-for="item in articles" :key="item.id" class="article-abstract">
         <div class="title">
             <router-link :to="'/blog/'+item.id"><h3>{{ item.title }}</h3></router-link>
         </div>
@@ -18,11 +18,11 @@
 <script>
 export default {
     props: {
-        abstracts: Array
+        articles: Array
     },
 
     watch: {
-        abstracts: function(val) {
+        articles: function(val) {
             console.log('111')
             console.log(val)
         }

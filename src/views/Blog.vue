@@ -10,7 +10,7 @@
                 <OtherLinks />
             </div>
             <div class="article-area">
-                <router-view :abstracts="articles"></router-view>
+                <router-view :articles="articles"></router-view>
             </div>
         </div>
     </div>

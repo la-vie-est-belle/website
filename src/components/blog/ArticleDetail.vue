@@ -2,27 +2,21 @@
     <div class="article-detail">
         <div class="title">
             <div class="title-edit">
-                <h2>快速掌握PyQt5</h2>
                 <span class="edit"><a href="javascript:;"><img src="@/assets/blog/write.png" width="18" height="18"></a></span>
+                <h2>{{ currentArticle.title }}</h2>
             </div>
-            <span class="time">2020-03-27 19:57:14</span>
+            <div class="time">
+                <span>{{ currentArticle.createTime }}</span>
+            </div>
         </div>
         <hr>
+        <br />
+
         <div class="content">
-            <p>
-                写在前面：因为太喜欢Python和Qt了，所以想开始慢慢写一些有关PyQt5的知识点。刚开始会介绍各个控件的使用，之后会进行实战操作，相信学完本系列对大家的兼职/外快事业会有帮助。所有的篇章不会有太多冗余，干货最重要。读者当然可以把这系列当作一个工具书来使
-                写在前面：因为太喜欢Python和Qt了，所以想开始慢慢写一些有关PyQt5的知识点。刚开始会介绍各个控件的使用，之后会进行实战操作，相信学完本系列对大家的兼职/外快事业会有帮助。所有的篇章不会有太多冗余，干货最重要。读者当然可以把这系列当作一个工具书来使
-                写在前面：因为太喜欢Python和Qt了，所以想开始慢慢写一些有关PyQt5的知识点。刚开始会介绍各个控件的使用，之后会进行实战操作，相信学完本系列对大家的兼职/外快事业会有帮助。所有的篇章不会有太多冗余，干货最重要。读者当然可以把这系列当作一个工具书来使
-                写在前面：因为太喜欢Python和Qt了，所以想开始慢慢写一些有关PyQt5的知识点。刚开始会介绍各个控件的使用，之后会进行实战操作，相信学完本系列对大家的兼职/外快事业会有帮助。所有的篇章不会有太多冗余，干货最重要。读者当然可以把这系列当作一个工具书来使
-                写在前面：因为太喜欢Python和Qt了，所以想开始慢慢写一些有关PyQt5的知识点。刚开始会介绍各个控件的使用，之后会进行实战操作，相信学完本系列对大家的兼职/外快事业会有帮助。所有的篇章不会有太多冗余，干货最重要。读者当然可以把这系列当作一个工具书来使
-                写在前面：因为太喜欢Python和Qt了，所以想开始慢慢写一些有关PyQt5的知识点。刚开始会介绍各个控件的使用，之后会进行实战操作，相信学完本系列对大家的兼职/外快事业会有帮助。所有的篇章不会有太多冗余，干货最重要。读者当然可以把这系列当作一个工具书来使
-                写在前面：因为太喜欢Python和Qt了，所以想开始慢慢写一些有关PyQt5的知识点。刚开始会介绍各个控件的使用，之后会进行实战操作，相信学完本系列对大家的兼职/外快事业会有帮助。所有的篇章不会有太多冗余，干货最重要。读者当然可以把这系列当作一个工具书来使
-                写在前面：因为太喜欢Python和Qt了，所以想开始慢慢写一些有关PyQt5的知识点。刚开始会介绍各个控件的使用，之后会进行实战操作，相信学完本系列对大家的兼职/外快事业会有帮助。所有的篇章不会有太多冗余，干货最重要。读者当然可以把这系列当作一个工具书来使
-                写在前面：因为太喜欢Python和Qt了，所以想开始慢慢写一些有关PyQt5的知识点。刚开始会介绍各个控件的使用，之后会进行实战操作，相信学完本系列对大家的兼职/外快事业会有帮助。所有的篇章不会有太多冗余，干货最重要。读者当然可以把这系列当作一个工具书来使
-                写在前面：因为太喜欢Python和Qt了，所以想开始慢慢写一些有关PyQt5的知识点。刚开始会介绍各个控件的使用，之后会进行实战操作，相信学完本系列对大家的兼职/外快事业会有帮助。所有的篇章不会有太多冗余，干货最重要。读者当然可以把这系列当作一个工具书来使
-            </p>
-           
+            {{ currentArticle.content }}
         </div>
+        <br />
+
         <div class="article-bottom">
             <div class="category">
                 <span class="category-item">Python</span>
@@ -30,15 +24,15 @@
                 <span class="category-item">GUI</span>
             </div>
             <div class="func">
-                <span class="visit"><img src="@/assets/blog/visit.png" width="18" height="13">1000</span>
-                <span class="comment"><a href="javascript:;"><img src="@/assets/blog/comment.png" width="18" height="14">12</a></span>
-                <span class="thumb-up"><a href="javascript:;"><img src="@/assets/blog/thumb-up.png" width="17" height="15">55</a></span>
+                <span class="visit"><img src="@/assets/blog/visit.png" width="18" height="13">{{ currentArticle.visitCount }}</span>
+                <span class="comment"><a href="javascript:;"><img src="@/assets/blog/comment.png" width="18" height="14">{{ currentArticle.comments.length }}</a></span>
+                <span class="thumb-up"><a href="javascript:;"><img src="@/assets/blog/thumb-up.png" width="17" height="15">{{ currentArticle.thumbUpCount }}</a></span>
             </div>
         </div>
-        
     </div>
+    
     <div class="comment-area">
-        <Comment />
+        <Comment :comments="currentArticle.comments" />
     </div>
 </template>
 
@@ -46,6 +40,31 @@
 import Comment from '@/components/blog/Comment.vue'
 
 export default {
+    props: {
+        articles: Array
+    },
+
+    watch: {
+        articles: function(val) {
+            console.log('222')
+            console.log(val)
+        }
+    },
+
+    computed: {
+        currentArticle() {
+            let index = parseInt(this.$route.path.split('/')[2]) - 1
+            return {
+                title: this.articles[index].title,
+                content: this.articles[index].content,
+                createTime: this.articles[index].createTime,
+                thumbUpCount: this.articles[index].thumbUpCount,
+                visitCount: this.articles[index].visitCount,
+                comments: this.articles[index].comments,
+            }
+        }
+    },
+
     components: {
         Comment
     }
@@ -66,18 +85,9 @@ export default {
     }
 
     hr {
-        margin-top: -10px;
-        margin-bottom: 10px;
         border: 0px;
         background-color: whitesmoke;
         height: 0.5px;
-    }
-
-    .title {
-        display: flex;
-        justify-content:space-between;
-        align-items: center;
-        text-align: left;
     }
 
     .title-edit {
@@ -86,12 +96,16 @@ export default {
     }
 
     .edit {
-        margin-left: 10px;
-        margin-top: 5px
+        margin-top: 5px;
+        padding-right: 5px
     }
 
     .edit:hover {
         transform: scale(1.1);
+    }
+
+    .time {
+        margin-top: -10px;
     }
 
     .article-bottom {
@@ -106,7 +120,6 @@ export default {
         border-radius: 5px;
         box-shadow: 0px 1px 1px 0 rgba(0, 0, 0, 0.2);
         margin-right: 4px;
-        padding-left: 5px;
         padding-right: 5px;
     }
 

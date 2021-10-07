@@ -1,7 +1,7 @@
 <template>
     <div id="comment-area">
         <div class="total">
-            <p>总共有120条评论</p>
+            <p>总共有{{ comments.length }}条评论</p>
         </div>
         <hr>
         <div class="input-and-btn">
@@ -13,9 +13,9 @@
 
 <script>
 export default {
-    setup() {
-        
-    },
+    props: {
+        comments: Array
+    }
 }
 </script>
 
