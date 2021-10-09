@@ -5,8 +5,8 @@
         </div>
         <div class="content">
             <div class="sidebar">
-                <Count />
-                <Category />
+                <Count :articles="articles" />
+                <Category :articles="articles"/>
                 <OtherLinks />
             </div>
             <div class="article-area">
@@ -43,15 +43,13 @@ export default {
 
     methods: {
         getArticles() {
-            this.axios.get('/blog').then((res) => {
+            this.axios.get('/blog/article').then((res) => {
                 if (res.status == 200) {
                     this.articles = res.data
-                    console.log(typeof(res.data))
-                    console.log(this.articles)
                 }
             })
             .catch((error) => console.log(error))
-        }
+        },
     },
 }
 </script>

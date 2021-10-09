@@ -1,12 +1,12 @@
 <template>
     <div class="article-detail">
         <div class="title">
-            <div class="title-edit">
-                <span class="edit"><a href="javascript:;"><img src="@/assets/blog/write.png" width="18" height="18"></a></span>
+            <div>
                 <h2>{{ currentArticle.title }}</h2>
             </div>
-            <div class="time">
+            <div class="time-edit">
                 <span>{{ currentArticle.createTime }}</span>
+                <span class="edit"><a href="javascript:;"><img src="@/assets/blog/write.png" width="18" height="18"></a></span>
             </div>
         </div>
         <hr>
@@ -25,7 +25,7 @@
             </div>
             <div class="func">
                 <span class="visit"><img src="@/assets/blog/visit.png" width="18" height="13">{{ currentArticle.visitCount }}</span>
-                <span class="comment"><a href="javascript:;"><img src="@/assets/blog/comment.png" width="18" height="14">{{ currentArticle.comments.length }}</a></span>
+                <span class="comment"><a href="#comment-area"><img src="@/assets/blog/comment.png" width="18" height="14">{{ currentArticle.comments.length }}</a></span>
                 <span class="thumb-up"><a href="javascript:;"><img src="@/assets/blog/thumb-up.png" width="17" height="15">{{ currentArticle.thumbUpCount }}</a></span>
             </div>
         </div>
@@ -42,13 +42,6 @@ import Comment from '@/components/blog/Comment.vue'
 export default {
     props: {
         articles: Array
-    },
-
-    watch: {
-        articles: function(val) {
-            console.log('222')
-            console.log(val)
-        }
     },
 
     computed: {
@@ -90,21 +83,16 @@ export default {
         height: 0.5px;
     }
 
-    .title-edit {
-        display: flex;
-        align-items: center;
-    }
-
     .edit {
-        margin-top: 5px;
-        padding-right: 5px
+        padding-left: 5px;
+        float: right;
     }
 
     .edit:hover {
         transform: scale(1.1);
     }
 
-    .time {
+    .time-edit {
         margin-top: -10px;
     }
 
@@ -120,6 +108,7 @@ export default {
         border-radius: 5px;
         box-shadow: 0px 1px 1px 0 rgba(0, 0, 0, 0.2);
         margin-right: 4px;
+        padding-left: 5px;
         padding-right: 5px;
     }
 

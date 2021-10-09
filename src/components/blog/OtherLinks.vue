@@ -21,7 +21,7 @@
             </div>
 
             <div>
-                <a href="http://mp.weixin.qq.com/profile?src=3&timestamp=1631667748&ver=1&signature=2SnpJoDDZkStO5yDVZ7*T5L3JsYWlYAcakidumoMlGIBRhn140BmQo00fuXjx5v8rZe8Lc67r3oItrgnfgct4Q==" target="_blank"><img src="@/assets/blog/wechat.png" width="38" height="38"></a>
+                <a href="https://mp.weixin.qq.com/s/M_va0yeF9-wg-eYkMTEIMQ" target="_blank"><img src="@/assets/blog/wechat.png" width="38" height="38"></a>
                 <p>公众号</p>
             </div>
         </div>

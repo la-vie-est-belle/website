@@ -7,19 +7,19 @@
         <div class="total">
             <div class="item">
                 <p>文章数</p>
-                <p><a href="javascript:;">{{ total.article }}</a></p>
-            </div>
-            <div class="item">
-                <p>访问量</p>
-                <p><a href="javascript:;">{{ total.visit }}</a></p>
-            </div>
-            <div class="item">
-                <p>点赞数</p>
-                <p><a href="javascript:;">{{ total.up }}</a></p>
+                <p><a href="javascript:;">{{ totalData ? totalData.articleCount : '-' }}</a></p>
             </div>
             <div class="item">
                 <p>评论数</p>
-                <p><a href="javascript:;">{{ total.comment }}</a></p>
+                <p><a href="javascript:;">{{ totalData ? totalData.commentCount : '-' }}</a></p>
+            </div>
+            <div class="item">
+                <p>访问量</p>
+                <p><a href="javascript:;">{{ totalData ? totalData.visitCount : '-' }}</a></p>
+            </div>
+            <div class="item">
+                <p>点赞数</p>
+                <p><a href="javascript:;">{{ totalData ? totalData.thumbUpCount : '-' }}</a></p>
             </div>
         </div>
     </div>
@@ -27,13 +27,38 @@
 
 <script>
 export default {
-    data() {
-        return {
-            total: {
-                article: 120,
-                visit: 1000,
-                up: 258,
-                comment:169
+    props: {
+        articles: Array
+    },
+
+    computed: {
+        totalData() {
+            if (!this.articles) {
+                return
+            }
+            let articleCount = this.articles.length
+            let visitCount = 0
+            let thumbUpCount = 0
+            let commentCount = 0
+            for (let i=0; i<this.articles.length; i++) {
+                visitCount += this.articles[i].visitCount
+                thumbUpCount += this.articles[i].thumbUpCount
+                commentCount += this.articles[i].comments.length
+            }
+
+            if (visitCount / 10000 > 1) {
+                visitCount = Math.floor(visitCount / 10000) + '万+'
+            }
+
+            if (thumbUpCount / 10000 > 1) {
+                thumbUpCount = Math.floor(thumbUpCount / 10000) + '万+'
+            }
+
+            return {
+                articleCount: articleCount,
+                visitCount: visitCount,
+                thumbUpCount: thumbUpCount,
+                commentCount: commentCount
             }
         }
     }
@@ -64,9 +89,8 @@ export default {
 
     .item {
         display: inline-block;
-        color: gray;
-        font-weight: bold;
-        margin-right: 12px;
+        font-size: 16px;
+        margin-right: 10px;
     }
 
     a {

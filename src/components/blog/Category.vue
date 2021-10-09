@@ -4,9 +4,13 @@
             <h4>文章分类</h4>
         </div>
         <hr>
-        <div class="content" v-for="item in categories" :key="item.id">
-            <span class="name">{{ item.name }}</span>
+        <div>
+            <div class="card" v-for="item in categories" :key="item.id">
+                <span class="name">{{ item.name }}</span>
+                <span>10</span>
+            </div>
         </div>
+
     </div>
 </template>
 
@@ -15,19 +19,24 @@
 export default {
     data() {
         return {
-            categories: [
-                {id: 0, name: 'Python', num: 10},
-                {id: 1, name: 'PyQt5', num: 20},
-                {id: 2, name: 'C++', num: 5},
-                {id: 3, name: 'Javascript', num: 2},
-                {id: 4, name: 'Cocos', num: 10},
-                {id: 5, name: 'NodeJS', num: 10},
-                {id: 6, name: 'TypeScript', num: 10},
-                {id: 7, name: 'PyInstaller', num: 10},
-                {id: 8, name: '游戏开发', num: 10},
-            ]
+            categories: null
         }
-    }
+    },
+
+    mounted() {
+        this.getCategories()
+    },
+
+    methods: {
+        getCategories() {
+            this.axios.get('/blog/category').then((res) => {
+                if (res.status == 200) {
+                    this.categories = res.data
+                }
+            })
+            .catch((error) => console.log(error))
+        },
+    },
 }
 </script>
 
@@ -54,24 +63,27 @@ export default {
         width: 240px;
     }
 
-    .content {
+    .card {
         cursor: pointer;
-        display: inline-block;
         margin-right: 4px;
         margin-bottom: 10px;
 
         border: whitesmoke 1px solid;
         border-radius: 5px;
-        box-shadow: 0px 1px 1px 0 rgba(0, 0, 0, 0.2);
+        box-shadow: 0px 1px 2px 0 rgba(0, 0, 0, 0.2);
+
+        display: flex;
+        justify-content: space-between;
+
+        padding-left: 20px;
+        padding-right: 20px;
     }
 
-    .content:hover {
+    .card:hover {
         transform: scale(1.1);
     }
 
     .name {
-        font-size: 14px;
-        padding-left: 5px;
-        padding-right: 5px;
+        font-size: 17px;
     }
 </style>

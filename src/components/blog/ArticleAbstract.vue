@@ -21,12 +21,12 @@ export default {
         articles: Array
     },
 
-    watch: {
-        articles: function(val) {
-            console.log('111')
-            console.log(val)
-        }
-    },
+    // watch: {
+    //     articles: function(val) {
+    //         console.log('111')
+    //         console.log(val)
+    //     }
+    // },
 }
 </script>
 
