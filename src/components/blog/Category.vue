@@ -7,7 +7,7 @@
         <div>
             <div class="card" v-for="item in categories" :key="item.id">
                 <span class="name">{{ item.name }}</span>
-                <span>10</span>
+                <span>{{ item.articles.length }}篇</span>
             </div>
         </div>
 
