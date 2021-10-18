@@ -9,24 +9,24 @@
             <button class="comment-btn">评论</button>
         </div>
         <br>
-        <div class="comment-content">
+        <div class="comment-content" v-for="(item, index) in comments" :key="item.id">
             <div class="first-line">
                 <div class="avatar-name">
-                    <span class="avatar"><img src="" width="32" height="32"></span>
-                    <span class="name"><strong>仍梦</strong></span>
+                    <span class="avatar"><img :src="item.user.avatar" width="30" height="30"></span>
+                    <span class="name"><strong>&nbsp;{{ item.user.username }}</strong></span>
                 </div>
-                <span class="time"><strong>2020-04-13</strong></span>
+                <span class="time"><strong>{{ item.createTime }}</strong></span>
             </div>
             <div class="second-line">
-                <span>la sed facilis cumque aut quae debitis praesentium rer</span>
+                <span>{{ item.content }}</span>
             </div>
             <div class="third-line">
-                <span class="thumb-up-btn"><img src="" width="20" height="20"> 20</span>
-                <span class="thumb-down-btn"><img src="" width="20" height="20"> 5</span>
-                <span class="reply-btn"><img src="" width="20" height="20"> 回复</span>
-                <span class="reply-btn"><img src="" width="20" height="20"> 删除</span>
+                <span class="thumb-up-btn" @click="thumbUp()"><img src="@/assets/blog/thumb-up.png" width="18" height="15"> {{ item.thumbUpCount }}</span>
+                <span class="thumb-down-btn" @click="thumbDown()"><img src="@/assets/blog/thumb-down.png" width="18" height="15"> {{ item.thumbDownCount }}</span>
+                <span class="reply-btn" @click="reply(index)"><img src="@/assets/blog/comment.png" width="18" height="15"> {{ item['isShown'] ? '取消回复' : '回复' }}</span>
+                <span class="delete-btn" @click="deleteComment()"><img src="@/assets/blog/delete.png" width="15" height="15"> 删除</span>
             </div>
-            <div class="input-and-btn-reply">
+            <div class="input-and-btn-reply" v-show="item['isShown']">
                 <input class="comment-input-reply" placeholder="写下你的评论...">
                 <button class="comment-btn-reply">评论</button>
             </div>
@@ -36,8 +36,49 @@
 
 <script>
 export default {
-    props: {
-        comments: Array
+    data() {
+        return {
+            comments: []
+        }
+    },
+
+    mounted() {
+        this.getComments()
+    },
+
+    methods: {
+        getComments() {
+            let articleId = this.$route.path.split('/')[2]
+            this.axios.get('/blog/comment', {params:{articleId: articleId}}).then((res) => {
+                if (res.status == 200) {
+                    this.comments = res.data
+                    console.log(res.data)
+
+                    for (let i=0; i<this.comments.length; i++) {
+                        this.comments[i]['isShown'] = false
+                    }
+                    console.log(this.comments)
+                }
+            })
+            .catch((error) => console.log(error))
+        },
+
+        thumbUp() {
+            console.log(this.comments)
+            console.log('点赞')
+        },
+
+        thumbDown() {
+            console.log('踩')
+        },
+
+        reply(id) {
+            this.comments[id]['isShown'] = this.comments[id]['isShown'] ? false : true
+        },
+
+        deleteComment() {
+            console.log('删除')
+        },
     }
 }
 </script>
@@ -99,6 +140,10 @@ export default {
         background-color: #0550c0f1;
     }
 
+    .comment-content {
+        padding-bottom: 5px;
+    }
+
     .first-line {
         display: flex;
         justify-content: space-between;
@@ -111,7 +156,7 @@ export default {
     }
 
     .second-line, .third-line {
-        padding-left: 30px;
+        padding-left: 35px;
         padding-bottom: 10px;
     }
 
@@ -124,4 +169,7 @@ export default {
         justify-content: space-between;
     }
 
+    .thumb-up-btn, .thumb-down-btn, .reply-btn, .delete-btn {
+        cursor: pointer;
+    }
 </style>
