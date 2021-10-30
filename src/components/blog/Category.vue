@@ -25,6 +25,13 @@ export default {
 
     mounted() {
         this.getCategories()
+        // this.$watch(
+        //     () => this.$route.params,
+        //     () => {
+        //         this.getCategories()
+        //     },
+        //     { immediate: true}
+        // )
     },
 
     methods: {

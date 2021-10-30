@@ -43,6 +43,13 @@ export default {
     },
 
     mounted() {
+        // this.$watch(
+        //     () => this.$route.params,
+        //     () => {
+        //         this.getComments()
+        //     },
+        //     { immediate: true}
+        // )
         this.getComments()
     },
 
@@ -73,7 +80,14 @@ export default {
         },
 
         reply(id) {
-            this.comments[id]['isShown'] = this.comments[id]['isShown'] ? false : true
+            for (let i=0; i<this.comments.length; i++) {
+                if (i == id) {
+                    this.comments[i]['isShown'] = true
+                }
+                else {
+                    this.comments[i]['isShown'] = false
+                }
+            }
         },
 
         deleteComment() {

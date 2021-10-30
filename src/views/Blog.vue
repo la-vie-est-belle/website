@@ -38,6 +38,13 @@ export default {
     },
 
     mounted() {
+        // this.$watch(
+        //     () => this.$route.params,
+        //     () => {
+        //         this.getArticles()
+        //     },
+        //     { immediate: true}
+        // )
         this.getArticles()
     },
 

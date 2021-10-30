@@ -6,7 +6,7 @@
             </div>
             <div class="time-edit">
                 <span>{{ currentArticle.createTime }}</span>
-                <span class="edit"><a href="javascript:;"><img src="@/assets/blog/write.png" width="18" height="18"></a></span>
+                <span class="edit"><router-link to="/blog/compose"><img src="@/assets/blog/compose.png" width="18" height="18"></router-link></span>
             </div>
         </div>
         <hr>
