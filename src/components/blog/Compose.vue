@@ -16,6 +16,7 @@
             <br>
             <input class="category-input" type="text" placeholder="请输入文章分类" v-model="category" @keyup.enter="enterCategory">
         </div>
+        <br>
     </div>
 </template>
 
@@ -46,6 +47,15 @@ export default {
     methods: {
         publish() {
             // 发布文章
+            if (!this.title) {
+                alert('请输入文章标题')
+                return
+            }
+        
+            if (!this.content) {
+                alert('请输入文章内容')
+                return
+            }
 
             // 检查是否有输入没类，没有的话则定位到底部
             if (!this.categoryArray.length) {
@@ -57,7 +67,8 @@ export default {
             // 将文章信息发送到服务端存储
             let articleData = {
                 'title': this.title,
-                'content': this.content
+                'content': this.content,
+                'categoryArray': this.categoryArray
             }
 
             this.axios.post('/blog/publish', {data:articleData}).then((res)=>{
@@ -69,6 +80,11 @@ export default {
             if (!this.category) {
                 return
             }
+
+            if(this.category.length > 10) {
+                alert('分类名称过长')
+                return
+            }
             
             if (this.categoryArray.length > 10) {
                 alert('最多输入10个分类')
@@ -77,7 +93,6 @@ export default {
 
             this.categoryArray.push(this.category)
             this.category = ''
-            console.log(this.categoryArray)
         }
     },
 

@@ -89,7 +89,7 @@ export default {
 
     .item {
         display: inline-block;
-        font-size: 16px;
+        font-size: 15px;
         margin-right: 10px;
     }
 

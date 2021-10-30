@@ -4,7 +4,7 @@
             <router-link :to="'/blog/'+item.id"><h3>{{ item.title }}</h3></router-link>
         </div>
         <div class="intro">
-            <p>{{ item.content.substring(0, 200).trim() }}...</p>
+            <p v-html="item.content.substring(0, 200).trim()"></p>
         </div>
         <div class="func">
             <span class="time">{{ item.createTime }}</span>

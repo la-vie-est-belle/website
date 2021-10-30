@@ -1,10 +1,14 @@
 <template>
     <div class="intro">
+        <br>
+        <div class="intro-avatar">
+            <img style="border-radius:50%" src="@/assets/blog/rm_avatar.jpeg" width="100" height="100">
+        </div>
         <div class="title">
             <h2>仍梦</h2>
         </div>
         <div class="motto">
-            <h5>仰望星空，以梦为马</h5>
+            <h4>仰望星空，以梦为马</h4>
         </div>
     </div>
 </template>
@@ -22,5 +26,9 @@ export default {
         text-align: center;
         margin: auto;
         margin-top: -20px;
+    }
+
+    .intro-avatar {
+        margin: -10px;
     }
 </style>

@@ -10,11 +10,8 @@
             </div>
         </div>
         <hr>
-        <br />
 
-        <div class="content">
-            {{ currentArticle.content }}
-        </div>
+        <div class="content" v-html="currentArticle.content"></div>
         <br />
 
         <div class="article-bottom">

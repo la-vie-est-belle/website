@@ -36,17 +36,17 @@ export default {
         padding-left: 10px;
         padding-right: 40px;
         margin-top: 14px;
-        width: 200px;
+        width: 300px;
         height: 30px;
         border-radius: 20px;
         border: lightgray 1px solid;
         font-size: 15px;
     }
 
-    .search-input:focus {
+    /* .search-input:focus {
         outline: none;
         width: 300px;
-    }
+    } */
 
     .search-icon {
         position: relative;
