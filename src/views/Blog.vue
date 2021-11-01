@@ -11,6 +11,8 @@
             </div>
             <div class="article-area">
                 <router-view :articles="articles"></router-view>
+                <pagination :hide-on-single-page="false" :page-size="[2, 10, 20, 40] " @current-change="handleCurrentChange" :current-page="pageNum" 
+                               layout="total, prev, pager, next, jumper" :total="10"></pagination>
             </div>
         </div>
     </div>
@@ -34,6 +36,8 @@ export default {
     data() {
         return {
             articles: null,
+            pageNum: 10,
+            pageSize: 10
         }
     },
 
@@ -50,7 +54,7 @@ export default {
 
     methods: {
         getArticles() {
-            this.axios.get('/blog/article').then((res) => {
+            this.axios.get('/blog/getArticles').then((res) => {
                 if (res.status == 200) {
                     this.articles = res.data
                 }

@@ -2,7 +2,7 @@
     <div class="intro">
         <br>
         <div class="intro-avatar">
-            <img style="border-radius:50%" src="@/assets/blog/rm_avatar.jpeg" width="100" height="100">
+            <img style="border-radius:50%" src="@/assets/rm_avatar.jpeg" width="100" height="100">
         </div>
         <div class="title">
             <h2>仍梦</h2>

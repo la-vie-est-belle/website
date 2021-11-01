@@ -36,7 +36,7 @@ export default {
 
     methods: {
         getCategories() {
-            this.axios.get('/blog/category').then((res) => {
+            this.axios.get('/blog/getCategories').then((res) => {
                 if (res.status == 200) {
                     this.categories = res.data
                 }

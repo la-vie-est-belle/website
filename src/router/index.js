@@ -44,7 +44,7 @@ const routes = [
   },
   {
     path: '/blog/compose',
-    name: 'blog-compose',
+    name: 'compose',
     meta: {
       title: '写作'
     },

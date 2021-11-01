@@ -1,25 +1,75 @@
 <template>
     <div class="avatar">
-        <a href="javascript:;">
-            <img src="@/assets/logo.png" width="40" height="40" alt="头像">
+        <a href="javascript:;" @mouseover="showPanel" @mouseout="hidePanel">
+            <img src="@/assets/rm_avatar.jpeg" width="40" height="40" alt="头像">
         </a>
+    </div>
+    <div v-if="isShown" class="avatar-board" @mouseover="showPanel" @mouseout="hidePanel">
+        <div><router-link to="/blog/compose" @click="hidePanel()">开始创作</router-link></div>
+        <hr>
+        <div><a href="javascript:;">文章草稿</a></div>
+        <hr>
+        <div><a href="javascript:;">评论管理</a></div>
+        <hr>
+        <div><a href="javascript:;">个人中心</a></div>
     </div>
 </template>
 
 <script>
 export default {
+    data() {
+        return {
+            isShown: false,
+            timeoutId: null
+        }
+    },
 
+    methods: {
+        showPanel() {
+            this.isShown = true
+            if (this.timeoutId) {
+                clearTimeout(this.timeoutId)
+                this.timeoutId = null
+            }
+        },
+
+        hidePanel() {
+            this.timeoutId = setTimeout(() => {
+                this.isShown = false
+            }, 200);
+        }
+    }
 }
 </script>
 
 <style scoped>
     .avatar {
-        float: right;
-        margin-right: -140px;
-        margin-top: 10px;
+        position: absolute;
+        top: 10px;
+        left: 1180px;
     }
 
-    .avatar:hover {
-        transform: scale(1.1)
+    .avatar-board {
+        position: relative;
+        top: 15px;
+        left: 1140px;
+        width: 110px;
+        background: white;
+        border-radius: 10px;
+        margin-top: 50px;
+        padding: 5px;
+        z-index: 1000;
+    }
+
+    hr {
+        border: 0px;
+        background-color: whitesmoke;
+        height: 0.5px;
+        width: 100px;
+    }
+
+    .avatar-board a {
+        text-decoration: none;
+        color: black;
     }
 </style>

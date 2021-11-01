@@ -5,8 +5,8 @@
         </div>
         <hr>
         <div class="input-and-btn">
-            <input class="comment-input" placeholder="写下你的评论...">
-            <button class="comment-btn">评论</button>
+            <input class="comment-input" placeholder="写下你的评论..." v-model="articleComment">
+            <button class="comment-btn" @click="commentToArticle">评论</button>
         </div>
         <br>
         <div class="comment-content" v-for="(item, index) in comments" :key="item.id">
@@ -38,7 +38,8 @@
 export default {
     data() {
         return {
-            comments: []
+            comments: [],
+            articleComment: ''
         }
     },
 
@@ -56,7 +57,7 @@ export default {
     methods: {
         getComments() {
             let articleId = this.$route.path.split('/')[2]
-            this.axios.get('/blog/comment', {params:{articleId: articleId}}).then((res) => {
+            this.axios.get('/blog/getComments', {params:{articleId: articleId}}).then((res) => {
                 if (res.status == 200) {
                     this.comments = res.data
                     console.log(res.data)
@@ -67,7 +68,28 @@ export default {
                     console.log(this.comments)
                 }
             })
-            .catch((error) => console.log(error))
+            .catch((err) => console.log(err))
+        },
+
+        commentToArticle() {
+            if (!this.articleComment) {
+                alert('请输入评论内容')
+                return
+            }
+            
+            let articleId = this.$route.path.split('/')[2]
+
+            // 还要再加个user
+            let data = {
+                articleId: articleId,
+                commentContent: this.articleComment
+            }
+
+            this.axios.post('/blog/commentToArticle', {data:data}).then((res) => {
+                console.log(res)
+                this.articleComment = ''
+                alert('评论成功')
+            }).catch((err) => console.log(err))
         },
 
         thumbUp() {

@@ -6,7 +6,7 @@
             </div>
             <div class="time-edit">
                 <span>{{ currentArticle.createTime }}</span>
-                <span class="edit"><router-link to="/blog/compose"><img src="@/assets/blog/compose.png" width="18" height="18"></router-link></span>
+                <span class="edit"><a href="javascript:;" @click="edit(currentArticle.uuid)"><img src="@/assets/blog/compose.png" width="18" height="18"></a></span>
             </div>
         </div>
         <hr>
@@ -16,20 +16,18 @@
 
         <div class="article-bottom">
             <div class="category">
-                <span class="category-item">Python</span>
-                <span class="category-item">PyQt5</span>
-                <span class="category-item">GUI</span>
+                <span class="category-item" v-for="(item, index) in currentArticle.categories" :key="index">{{ item.name }}</span>
             </div>
             <div class="func">
-                <span class="visit"><img src="@/assets/blog/visit.png" width="18" height="13">{{ currentArticle.visitCount }}</span>
-                <span class="comment"><a href="#comment-area"><img src="@/assets/blog/comment.png" width="18" height="14">{{ currentArticle.comments.length }}</a></span>
-                <span class="thumb-up"><a href="javascript:;"><img src="@/assets/blog/thumb-up.png" width="17" height="15">{{ currentArticle.thumbUpCount }}</a></span>
+                <span class="visit"><img src="@/assets/blog/visit.png" width="18" height="13"> {{ currentArticle.visitCount }}</span>
+                <span class="comment"><a href="#comment-area"><img src="@/assets/blog/comment.png" width="18" height="13"> {{ currentArticle.comments.length }}</a></span>
+                <span class="thumb-up"><a href="javascript:;" @click="addThumbUp(currentArticle.uuid)"><img :style="thumbUpImgStyle" src="@/assets/blog/thumb-up.png" width="17" height="15"> {{ currentArticle.thumbUpCount }}</a></span>
             </div>
         </div>
     </div>
     
     <div class="comment-area">
-        <Comment :comments="currentArticle.comments" />
+        <Comment />
     </div>
 </template>
 
@@ -39,6 +37,43 @@ import Comment from '@/components/blog/Comment.vue'
 export default {
     props: {
         articles: Array
+    },
+
+    data() {
+        return {
+            thumbUpImgStyle: ''
+        }
+    },
+
+    methods: {
+        edit(uuid) {
+            // 编辑文章
+            this.$router.push({name:'compose', query:{uuid:uuid}})
+        },
+
+        addThumbUp(uuid) {
+            let data = {
+                uuid: uuid,
+            }
+
+            // 服务器更新点赞数
+            this.axios.post('/blog/thumbup', {data:data}).then((res)=>{
+                console.log(res)
+
+                // 前端更新点赞数
+                this.currentArticle.thumbUpCount++
+                this.$forceUpdate()
+                
+                // 点赞样式
+                this.thumbUpImgStyle = 'transform: scale(1.25)'
+                setTimeout(()=>{
+                    this.thumbUpImgStyle = ''
+                }, 100)
+
+            }).catch((err)=>{
+                alert(err)
+            })
+        }
     },
 
     computed: {
@@ -51,6 +86,8 @@ export default {
                 thumbUpCount: this.articles[index].thumbUpCount,
                 visitCount: this.articles[index].visitCount,
                 comments: this.articles[index].comments,
+                categories: this.articles[index].categories,
+                uuid: this.articles[index].uuid
             }
         }
     },
@@ -118,12 +155,16 @@ export default {
         opacity: 0.7;
     }
 
+    .visit:hover, .comment:hover, .thumb-up:hover {
+        opacity: 1;
+    }
+
     .func {
         text-align: right;
     }
 
     a {
         text-decoration: none;
+        color: black
     }
-
 </style>

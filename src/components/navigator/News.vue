@@ -19,9 +19,9 @@ export default {
 
 <style scoped>
     .news {
-        float: right;
-        margin-right: 260px;
-        margin-top: 16px;
+        position: absolute;
+        top: 18px;
+        left: 1070px;
     }
 
     img {

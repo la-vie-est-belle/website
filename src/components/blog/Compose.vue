@@ -2,7 +2,7 @@
     <div class="compose">
         <div class="compose-title">
             <input class="compose-title-input" placeholder="请输入标题" v-model="title">
-            <button class="compose-save-btn">保存草稿</button>
+            <button class="compose-save-btn" @click="saveDraft">保存草稿</button>
             <button class="compose-publish-btn" @click="publish">发布文章</button>
         </div>
         <div class="compose-editor">
@@ -11,7 +11,7 @@
         <br>
         <div id="compose-category">
             <div>
-                <span class="category-item" v-for="(item, index) in EnteredCategories" :key="index">{{ item }} <a class="category-close" href="#compose-category">×</a></span>
+                <span class="compose-category-item" v-for="(item, index) in EnteredCategories" :key="index">{{ item }} <a class="category-close" href="javascript:;" @click="deleteOneCategory(item)">×</a></span>
             </div>
             <br>
             <input class="category-input" type="text" placeholder="请输入文章分类" v-model="category" @keyup.enter="enterCategory">
@@ -36,7 +36,8 @@ export default {
                 placeholder: 'This is where dream starts...',
             },
             categoryArray: [],
-            category: ''
+            category: '',
+            isEditing: false
         }
     },
 
@@ -44,9 +45,81 @@ export default {
         ckeditor: CKEditor.component
     },
 
+    mounted() {
+        let uuid = this.$route.query.uuid
+        if (uuid) {
+            this.isEditing = true
+            let data = {
+                uuid: uuid
+            }
+            this.axios.post('/blog/getArticle', {data:data}).then((res)=>{
+                let data = res.data
+                this.title = data.title
+                this.content = data.content
+
+                for (let i=0; i<data.categories.length; i++) {
+                    this.categoryArray.push(data.categories[i].name)
+                }
+            })
+        }
+    },
+
     methods: {
         publish() {
             // 发布文章
+            if (!this.title) {
+                alert('请输入文章标题')
+                return
+            }
+        
+            if (!this.content) {
+                alert('请输入文章内容')
+                return
+            }
+
+            // 检查是否有输入没类，没有的话则定位到底部
+            if (!this.categoryArray.length) {
+                alert('请输入分类')
+                document.documentElement.scrollTop = 100000;
+                return
+            }
+
+            // 将文章信息发送到服务端存储
+
+
+            if (this.isEditing) {
+                console.log('更新')
+                let articleData = {
+                    'title': this.title,
+                    'content': this.content,
+                    'categoryArray': this.categoryArray,
+                    'uuid': this.$route.query.uuid
+                }
+
+                this.axios.post('/blog/publish', {data:articleData}).then((res)=>{
+                    console.log(res)
+                    alert('更新成功')
+                    // let articleId = res.data.articleId
+                    // this.$router.push(`/blog/${articleId}`)
+                })
+            }
+            else {
+                let articleData = {
+                    'title': this.title,
+                    'content': this.content,
+                    'categoryArray': this.categoryArray
+                }
+
+                this.axios.post('/blog/publish', {data:articleData}).then((res)=>{
+                    console.log(res)
+                    alert('发布成功')
+                    this.$router.push('/blog')
+                })
+            }
+        },
+
+        saveDraft() {
+            // 保存草稿
             if (!this.title) {
                 alert('请输入文章标题')
                 return
@@ -71,8 +144,9 @@ export default {
                 'categoryArray': this.categoryArray
             }
 
-            this.axios.post('/blog/publish', {data:articleData}).then((res)=>{
+            this.axios.post('/blog/save', {data:articleData}).then((res)=>{
                 console.log(res)
+                alert('存储成功')
             })
         },
 
@@ -81,18 +155,32 @@ export default {
                 return
             }
 
+            if (this.categoryArray.indexOf(this.category) > -1) {
+                alert('分类名称已存在')
+                return
+            }
+
             if(this.category.length > 10) {
                 alert('分类名称过长')
                 return
             }
             
-            if (this.categoryArray.length > 10) {
-                alert('最多输入10个分类')
+            if (this.categoryArray.length > 5) {
+                alert('最多输入5个分类')
                 return
             }
 
-            this.categoryArray.push(this.category)
+            this.categoryArray.push(this.category.trim())
             this.category = ''
+        },
+
+        deleteOneCategory(item) {
+            for (let i=0; i<this.categoryArray.length; i++) {
+                if (this.categoryArray[i] == item) {
+                    this.categoryArray.splice(i, 1)
+                    return
+                }
+            }
         }
     },
 
@@ -106,7 +194,7 @@ export default {
 
 <style>
     #compose-category {
-        margin-left: -400px;
+        margin-left: -200px;
         text-overflow: ellipsis;
     }
 
@@ -120,7 +208,7 @@ export default {
         padding-left: 10px;
     }
 
-    .category-item {
+    .compose-category-item {
         background-color: lightgray;
         border-radius: 4px;
         padding: 5px;
@@ -137,9 +225,7 @@ export default {
     }
 
     .compose {
-        position: relative;
-        left: 200px;
-        right: 200px;
+        padding-left: 200px;
     }
 
     .compose-save-btn {

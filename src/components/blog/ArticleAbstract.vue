@@ -4,12 +4,12 @@
             <router-link :to="'/blog/'+item.id"><h3>{{ item.title }}</h3></router-link>
         </div>
         <div class="intro">
-            <p v-html="item.content.substring(0, 200).trim()"></p>
+            <p>{{ item.content.replace(regex, '').substring(0, 200).trim() + ' ...' }}</p>
         </div>
         <div class="func">
             <span class="time">{{ item.createTime }}</span>
             <span class="visit"><img src="@/assets/blog/visit.png" width="18" height="13">{{ item.visitCount }}</span>
-            <span class="comment"><img src="@/assets/blog/comment.png" width="18" height="14">{{ item.comments.length }}</span>
+            <span class="comment"><img src="@/assets/blog/comment.png" width="18" height="13">{{ item.comments.length }}</span>
             <span class="thumb-up"><img src="@/assets/blog/thumb-up.png" width="17" height="15">{{ item.thumbUpCount }}</span>
         </div>
     </div>
@@ -21,12 +21,11 @@ export default {
         articles: Array
     },
 
-    // watch: {
-    //     articles: function(val) {
-    //         console.log('111')
-    //         console.log(val)
-    //     }
-    // },
+    data() {
+        return {
+            regex: /(<([^>]+)>)/ig
+        }
+    }
 }
 </script>
 
