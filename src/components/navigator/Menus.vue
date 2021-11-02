@@ -9,13 +9,13 @@ export default {
     data() {
         return {
             links: [
-                {id: 0, path: '/home', name: '首页'},
-                {id: 1, path: '/blog', name: '博客'},
-                {id: 2, path: '/store', name: '商店'},
-                {id: 3, path: '/widget', name: '功能'},
+                // {id: 0, path: '/blog', name: '首页'},
+                // {id: 1, path: '/blog', name: '博客'},
+                // {id: 2, path: '/store', name: '商店'},
+                // {id: 3, path: '/widget', name: '功能'},
                 // {id: 4, path: '/order', name: '接单'},
                 // {id: 5, path: '/donate', name: '捐助名单'},
-                {id: 6, path: '/egg', name: '彩蛋'},
+                // {id: 6, path: '/egg', name: '彩蛋'},
             ],
 
             clickedStyle: {

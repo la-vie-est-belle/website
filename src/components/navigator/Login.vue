@@ -15,8 +15,9 @@ export default {
     .login {
         position: fixed;
         right: 200px;
-        top: 19px;
+        top: 20px;
     }
+
     a {
         font-size: 16px;
         text-decoration: none;

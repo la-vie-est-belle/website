@@ -11,8 +11,8 @@
             </div>
             <div class="article-area">
                 <router-view :articles="articles"></router-view>
-                <pagination :hide-on-single-page="false" :page-size="[2, 10, 20, 40] " @current-change="handleCurrentChange" :current-page="pageNum" 
-                               layout="total, prev, pager, next, jumper" :total="10"></pagination>
+                <!-- <pagination :hide-on-single-page="false" :page-size="[2, 10, 20, 40] " @current-change="handleCurrentChange" :current-page="pageNum" 
+                               layout="total, prev, pager, next, jumper" :total="10"></pagination> -->
             </div>
         </div>
     </div>
@@ -42,14 +42,13 @@ export default {
     },
 
     mounted() {
-        // this.$watch(
-        //     () => this.$route.params,
-        //     () => {
-        //         this.getArticles()
-        //     },
-        //     { immediate: true}
-        // )
-        this.getArticles()
+        this.$watch(
+            () => this.$route.params,
+            () => {
+                this.getArticles()
+            },
+            { immediate: true}
+        )
     },
 
     methods: {

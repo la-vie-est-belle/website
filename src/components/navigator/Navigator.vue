@@ -5,7 +5,6 @@
             <Menus />
             <Search />
             <div v-if="isLogin">
-                <News />
                 <Avatar />
             </div>
             <div v-else>
@@ -19,7 +18,6 @@
 import Logo from './Logo.vue'
 import Menus from './Menus.vue'
 import Search from './Search.vue'
-import News from './News.vue'
 import Avatar from './Avatar.vue'
 import Login from './Login.vue'
 
@@ -35,7 +33,6 @@ export default {
         Logo,
         Menus,
         Search,
-        News,
         Avatar,
         Login
     }

@@ -4,9 +4,7 @@ import Home from '../views/Home.vue'
 const routes = [
   {
     path: '/',
-    redirect: {
-      name: 'home'
-    }
+    redirect: '/blog'
   },
   {
     path: '/home',
@@ -25,6 +23,14 @@ const routes = [
     }
   },
   {
+    path: '/message',
+    name: 'message',
+    component: () => import(/* webpackChunkName: "search" */ '../views/Message.vue'),
+    meta: {
+      title: '消息'
+    }
+  },
+  {
     path: '/blog',
     name: 'blog',
     component: () => import(/* webpackChunkName: "blog" */ '../views/Blog.vue'),
@@ -40,6 +46,14 @@ const routes = [
         path: '/blog/:id(\\d+)',
         component: () => import(/* webpackChunkName: "blog" */ '@/components/blog/ArticleDetail.vue'),
       },
+      // {
+      //   path: '/blog/cate',
+      //   component: () => import(/* webpackChunkName: "blog" */ '@/components/blog/ArticleDetail.vue'),
+      // },
+      // {
+      //   path: '/blog/draft',
+      //   component: () => import(/* webpackChunkName: "blog" */ '@/components/blog/ArticleDetail.vue'),
+      // },
     ]
   },
   {
@@ -49,6 +63,14 @@ const routes = [
       title: '写作'
     },
     component: () => import(/* webpackChunkName: "blog" */ '@/components/blog/Compose.vue'),
+  },
+  {
+    path: '/blog/verify',
+    name: 'verify',
+    meta: {
+      title: '评论审核'
+    },
+    component: () => import(/* webpackChunkName: "blog" */ '@/components/blog/Verify.vue'),
   },
   {
     path: '/store',

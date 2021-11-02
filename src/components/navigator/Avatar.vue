@@ -9,7 +9,9 @@
         <hr>
         <div><a href="javascript:;">文章草稿</a></div>
         <hr>
-        <div><a href="javascript:;">评论管理</a></div>
+        <div><router-link to="/blog/verify" @click="hidePanel()">评论管理</router-link></div>
+        <hr>
+        <div><router-link to="/message" @click="hidePanel()">我的消息</router-link></div>
         <hr>
         <div><a href="javascript:;">个人中心</a></div>
     </div>
@@ -46,7 +48,7 @@ export default {
     .avatar {
         position: absolute;
         top: 10px;
-        left: 1180px;
+        left: 1190px;
     }
 
     .avatar-board {
@@ -59,6 +61,7 @@ export default {
         margin-top: 50px;
         padding: 5px;
         z-index: 1000;
+        font-size: 15px;
     }
 
     hr {

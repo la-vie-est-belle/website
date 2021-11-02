@@ -1,7 +1,7 @@
 <template>
-    <div v-for="item in articles" :key="item.id" class="article-abstract">
+    <div v-for="(item, index) in articles" :key="item.id" class="article-abstract">
         <div class="title">
-            <router-link :to="'/blog/'+item.id"><h3>{{ item.title }}</h3></router-link>
+            <router-link :to="'/blog/'+(index+1)"><h3>{{ item.title }}</h3></router-link>
         </div>
         <div class="intro">
             <p>{{ item.content.replace(regex, '').substring(0, 200).trim() + ' ...' }}</p>
@@ -25,7 +25,7 @@ export default {
         return {
             regex: /(<([^>]+)>)/ig
         }
-    }
+    },
 }
 </script>
 
@@ -45,9 +45,6 @@ export default {
 
     .intro {
         text-align: justify;
-        /* white-space: nowrap; */
-        /* overflow: 20px;
-        text-overflow: ellipsis;  */
     }
 
     span {

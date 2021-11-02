@@ -9,26 +9,53 @@
             <button class="comment-btn" @click="commentToArticle">评论</button>
         </div>
         <br>
-        <div class="comment-content" v-for="(item, index) in comments" :key="item.id">
-            <div class="first-line">
-                <div class="avatar-name">
-                    <span class="avatar"><img :src="item.user.avatar" width="30" height="30"></span>
-                    <span class="name"><strong>&nbsp;{{ item.user.username }}</strong></span>
+        <div class="comment-content" v-for="(parentItem, parentIndex) in allComments" :key="parentItem.id">
+            <div v-if="!parentItem.parentUuid">
+                <div class="first-line">
+                    <div class="avatar-name">
+                        <span class="avatar"><img :src="parentItem.user.avatar" width="30" height="30"></span>
+                        <span class="name"><strong>&nbsp;{{ parentItem.user.username }}</strong></span>
+                    </div>
+                    <span class="time"><strong>{{ parentItem.createTime }}</strong></span>
                 </div>
-                <span class="time"><strong>{{ item.createTime }}</strong></span>
+                <div class="second-line">
+                    <span>{{ parentItem.content }}</span>
+                </div>
+                <div class="third-line">
+                    <span class="thumb-up-btn" @click="thumbUp(parentItem.uuid, parentIndex)"><img :style="thumbUpBiggerIndex==parentIndex ? 'transform: scale(1.25)': ''" src="@/assets/blog/thumb-up.png" width="18" height="15"> {{ parentItem.thumbUpCount }}</span>
+                    <span class="thumb-down-btn" @click="thumbDown(parentItem.uuid, parentIndex)"><img :style="thumbDownBiggerIndex==parentIndex ? 'transform: scale(1.25)': ''" src="@/assets/blog/thumb-down.png" width="18" height="15"> {{ parentItem.thumbDownCount }}</span>
+                    <span class="reply-btn" @click="reply(parentIndex)"><img src="@/assets/blog/comment.png" width="18" height="15"> {{ parentItem['isShown'] ? '取消回复' : '回复' }}</span>
+                    <span class="delete-btn" @click="deleteComment(parentItem.uuid, parentIndex)"><img src="@/assets/blog/delete.png" width="15" height="15"> 删除</span>
+                </div>
+                <div class="input-and-btn-reply" v-show="parentItem['isShown']">
+                    <input class="comment-input-reply" placeholder="写下你的评论..." v-model="childComment">
+                    <button class="comment-btn-reply" @click="commentToComment(parentItem.uuid)">评论</button>
+                </div>
             </div>
-            <div class="second-line">
-                <span>{{ item.content }}</span>
-            </div>
-            <div class="third-line">
-                <span class="thumb-up-btn" @click="thumbUp()"><img src="@/assets/blog/thumb-up.png" width="18" height="15"> {{ item.thumbUpCount }}</span>
-                <span class="thumb-down-btn" @click="thumbDown()"><img src="@/assets/blog/thumb-down.png" width="18" height="15"> {{ item.thumbDownCount }}</span>
-                <span class="reply-btn" @click="reply(index)"><img src="@/assets/blog/comment.png" width="18" height="15"> {{ item['isShown'] ? '取消回复' : '回复' }}</span>
-                <span class="delete-btn" @click="deleteComment()"><img src="@/assets/blog/delete.png" width="15" height="15"> 删除</span>
-            </div>
-            <div class="input-and-btn-reply" v-show="item['isShown']">
-                <input class="comment-input-reply" placeholder="写下你的评论...">
-                <button class="comment-btn-reply">评论</button>
+
+            <div style="margin-left:36px" class="comment-content" v-for="(childItem, childIndex) in comments" :key="childItem.id">
+                <div v-if="childItem.parentUuid && childItem.parentUuid==parentItem.uuid">
+                    <div class="first-line">
+                        <div class="avatar-name">
+                            <span class="avatar"><img :src="childItem.user.avatar" width="30" height="30"></span>
+                            <span class="name"><strong>&nbsp;{{ childItem.user.username }}</strong></span>
+                        </div>
+                        <span class="time"><strong>{{ childItem.createTime }}</strong></span>
+                    </div>
+                    <div class="second-line">
+                        <span>{{ childItem.content }}</span>
+                    </div>
+                    <div class="third-line">
+                        <span class="thumb-up-btn" @click="thumbUp(childItem.uuid, childIndex)"><img :style="thumbUpBiggerIndex==childIndex ? 'transform: scale(1.25)': ''" src="@/assets/blog/thumb-up.png" width="18" height="15"> {{ childItem.thumbUpCount }}</span>
+                        <span class="thumb-down-btn" @click="thumbDown(childItem.uuid, childIndex)"><img :style="thumbDownBiggerIndex==childIndex ? 'transform: scale(1.25)': ''" src="@/assets/blog/thumb-down.png" width="18" height="15"> {{ childItem.thumbDownCount }}</span>
+                        <span class="reply-btn" @click="reply(childIndex)"><img src="@/assets/blog/comment.png" width="18" height="15"> {{ childItem['isShown'] ? '取消回复' : '回复' }}</span>
+                        <span class="delete-btn" @click="deleteComment(childItem.uuid, childIndex)"><img src="@/assets/blog/delete.png" width="15" height="15"> 删除</span>
+                    </div>
+                    <div class="input-and-btn-reply" v-show="childItem['isShown']">
+                        <input class="child-comment-input-reply" placeholder="写下你的评论..." v-model="childComment">
+                        <button class="comment-btn-reply" @click="commentToComment(parentItem.uuid)">评论</button>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
@@ -36,36 +63,41 @@
 
 <script>
 export default {
+    props: {
+        articleId: Number
+    },
+
     data() {
         return {
             comments: [],
-            articleComment: ''
+            articleComment: '',
+            childComment: '',
+            thumbUpBiggerIndex: null,
+            thumbDownBiggerIndex: null
         }
     },
 
     mounted() {
-        // this.$watch(
-        //     () => this.$route.params,
-        //     () => {
-        //         this.getComments()
-        //     },
-        //     { immediate: true}
-        // )
         this.getComments()
+    },
+
+    computed: {
+        allComments() {
+            return this.comments
+        }
     },
 
     methods: {
         getComments() {
-            let articleId = this.$route.path.split('/')[2]
-            this.axios.get('/blog/getComments', {params:{articleId: articleId}}).then((res) => {
+            let data = {
+                articleId: this.articleId
+            }
+            this.axios.post('/blog/getComments', {data: data}).then((res) => {
                 if (res.status == 200) {
                     this.comments = res.data
-                    console.log(res.data)
-
                     for (let i=0; i<this.comments.length; i++) {
                         this.comments[i]['isShown'] = false
                     }
-                    console.log(this.comments)
                 }
             })
             .catch((err) => console.log(err))
@@ -76,35 +108,107 @@ export default {
                 alert('请输入评论内容')
                 return
             }
-            
-            let articleId = this.$route.path.split('/')[2]
 
             // 还要再加个user
             let data = {
-                articleId: articleId,
+                articleId: this.articleId,
                 commentContent: this.articleComment
             }
 
             this.axios.post('/blog/commentToArticle', {data:data}).then((res) => {
-                console.log(res)
-                this.articleComment = ''
-                alert('评论成功')
+                if (res.status == 200) {
+                    this.articleComment = ''
+                    alert('评论成功，将在审核后显示~')
+                    this.getComments()
+                }
+
             }).catch((err) => console.log(err))
+            
+            // 别忘了socketio显示通知
         },
 
-        thumbUp() {
-            console.log(this.comments)
-            console.log('点赞')
+        commentToComment(uuid) {
+            if (!this.childComment) {
+                alert('请输入评论内容')
+                return
+            }
+
+            let articleId = this.$route.path.split('/')[2]
+
+            // 还要再加个user
+            let data = {
+                uuid: uuid,
+                articleId: articleId,
+                commentContent: this.childComment
+            }
+
+            this.axios.post('/blog/commentToComment', {data:data}).then((res) => {
+                if (res.status == 200) {
+                    this.childComment = ''
+                    alert('评论成功，将在审核后显示~')
+                    this.getComments()
+                }
+            }).catch((err) => console.log(err))
+
+            // 别忘了socketio显示通知
         },
 
-        thumbDown() {
-            console.log('踩')
+        thumbUp(uuid, index) {
+            let data = {
+                uuid: uuid,
+            }
+
+            // 服务器更新点赞数
+            this.axios.post('/blog/comment/thumbup', {data:data}).then((res)=>{
+                if (res.status == 200) {
+                    // 前端更新点赞数
+                    this.allComments[index].thumbUpCount++
+                    this.$forceUpdate()
+                    
+                    // 点赞样式
+                    this.thumbUpBiggerIndex = index
+                    setTimeout(()=>{
+                        this.thumbUpBiggerIndex = null
+                    }, 100)
+                }
+            }).catch((err)=>{
+                alert(err)
+            })
         },
 
-        reply(id) {
+        thumbDown(uuid, index) {
+            let data = {
+                uuid: uuid,
+            }
+
+            // 服务器更新踩数
+            this.axios.post('/blog/comment/thumbDown', {data:data}).then((res)=>{
+                if (res.status == 200) {
+                    // 前端更新踩数
+                    this.allComments[index].thumbDownCount++
+                    this.$forceUpdate()
+                    
+                    // 点赞样式
+                    this.thumbDownBiggerIndex = index
+                    setTimeout(()=>{
+                        this.thumbDownBiggerIndex = null
+                    }, 100)
+                }
+            }).catch((err)=>{
+                alert(err)
+            })
+        },
+
+        reply(index) {
             for (let i=0; i<this.comments.length; i++) {
-                if (i == id) {
-                    this.comments[i]['isShown'] = true
+                if (i == index) {
+                    if (this.comments[i]['isShown']) {
+                        this.comments[i]['isShown'] = false
+                    }
+                    else {
+                        this.comments[i]['isShown'] = true
+                    }
+                    
                 }
                 else {
                     this.comments[i]['isShown'] = false
@@ -112,8 +216,25 @@ export default {
             }
         },
 
-        deleteComment() {
-            console.log('删除')
+        deleteComment(uuid, index) {
+            let choice = confirm('是否确定删除？')
+            if (!choice) {
+                return
+            }
+
+            let data = {
+                uuid: uuid,
+            }
+
+            // 服务器删除评论
+            this.axios.post('/blog/comment/delete', {data:data}).then((res)=>{
+                if (res.status == 200) {
+                    this.allComments.splice(index, 1)
+                    this.$forceUpdate()
+                }
+            }).catch((err)=>{
+                alert(err)
+            })
         },
     }
 }
@@ -152,6 +273,12 @@ export default {
         margin-left: 30px;
     }
 
+    .child-comment-input-reply {
+        width: 565px;
+        height: 30px;
+        margin-left: 30px;
+    }
+
     .input-and-btn {
         display: flex;
         justify-content: space-between;
@@ -177,7 +304,7 @@ export default {
     }
 
     .comment-content {
-        padding-bottom: 5px;
+        padding-bottom: 1px;
     }
 
     .first-line {

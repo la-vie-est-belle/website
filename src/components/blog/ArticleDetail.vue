@@ -6,12 +6,13 @@
             </div>
             <div class="time-edit">
                 <span>{{ currentArticle.createTime }}</span>
+                <span class="delete"><a href="javascript:;" @click="deleteArticle(currentArticle.uuid)"><img src="@/assets/blog/delete.png" width="18" height="18"></a></span>
                 <span class="edit"><a href="javascript:;" @click="edit(currentArticle.uuid)"><img src="@/assets/blog/compose.png" width="18" height="18"></a></span>
             </div>
         </div>
         <hr>
 
-        <div class="content" v-html="currentArticle.content"></div>
+        <div class="article-content" v-html="currentArticle.content"></div>
         <br />
 
         <div class="article-bottom">
@@ -21,13 +22,13 @@
             <div class="func">
                 <span class="visit"><img src="@/assets/blog/visit.png" width="18" height="13"> {{ currentArticle.visitCount }}</span>
                 <span class="comment"><a href="#comment-area"><img src="@/assets/blog/comment.png" width="18" height="13"> {{ currentArticle.comments.length }}</a></span>
-                <span class="thumb-up"><a href="javascript:;" @click="addThumbUp(currentArticle.uuid)"><img :style="thumbUpImgStyle" src="@/assets/blog/thumb-up.png" width="17" height="15"> {{ currentArticle.thumbUpCount }}</a></span>
+                <span class="thumb-up"><a href="javascript:;" @click="thumbUp(currentArticle.uuid)"><img :style="thumbUpImgStyle" src="@/assets/blog/thumb-up.png" width="17" height="15"> {{ currentArticle.thumbUpCount }}</a></span>
             </div>
         </div>
     </div>
     
     <div class="comment-area">
-        <Comment />
+        <Comment :articleId="currentArticle.id" />
     </div>
 </template>
 
@@ -45,31 +46,70 @@ export default {
         }
     },
 
+    mounted() {
+        this.addVisitCount()
+    },
+
     methods: {
+        addVisitCount() {
+            let data = {
+                uuid: this.currentArticle.uuid,
+            }
+
+            this.axios.post('/blog/article/addVisitCount', {data:data}).then((res)=>{
+                if (res.status == 200) {
+                    // 前端更新点赞数
+                    this.currentArticle.visitCount++
+                    this.$forceUpdate()
+                }
+            }).catch((err)=>{
+                alert(err)
+            })
+        },
+
         edit(uuid) {
             // 编辑文章
             this.$router.push({name:'compose', query:{uuid:uuid}})
         },
 
-        addThumbUp(uuid) {
+        thumbUp(uuid) {
             let data = {
                 uuid: uuid,
             }
 
             // 服务器更新点赞数
-            this.axios.post('/blog/thumbup', {data:data}).then((res)=>{
-                console.log(res)
+            this.axios.post('/blog/article/thumbup', {data:data}).then((res)=>{
+                if (res.status == 200) {
+                    // 前端更新点赞数
+                    this.currentArticle.thumbUpCount++
+                    this.$forceUpdate()
+                    
+                    // 点赞样式
+                    this.thumbUpImgStyle = 'transform: scale(1.25)'
+                    setTimeout(()=>{
+                        this.thumbUpImgStyle = ''
+                    }, 100)
+                }
+            }).catch((err)=>{
+                alert(err)
+            })
+        },
 
-                // 前端更新点赞数
-                this.currentArticle.thumbUpCount++
-                this.$forceUpdate()
-                
-                // 点赞样式
-                this.thumbUpImgStyle = 'transform: scale(1.25)'
-                setTimeout(()=>{
-                    this.thumbUpImgStyle = ''
-                }, 100)
+        deleteArticle(uuid) {
+            let choice = confirm('是否确定删除？')
+            if (!choice) {
+                return
+            }
 
+            let data = {
+                uuid: uuid,
+            }
+
+            // 服务器删除评论
+            this.axios.post('/blog/article/delete', {data:data}).then((res)=>{
+                if (res.status == 200) {
+                    this.$router.replace('/blog')
+                }
             }).catch((err)=>{
                 alert(err)
             })
@@ -80,6 +120,7 @@ export default {
         currentArticle() {
             let index = parseInt(this.$route.path.split('/')[2]) - 1
             return {
+                id: this.articles[index].id,
                 title: this.articles[index].title,
                 content: this.articles[index].content,
                 createTime: this.articles[index].createTime,
@@ -116,7 +157,7 @@ export default {
         background-color: whitesmoke;
         height: 0.5px;
     }
-
+    
     .edit {
         padding-left: 5px;
         float: right;
@@ -125,6 +166,17 @@ export default {
     .edit:hover {
         transform: scale(1.1);
     }
+
+    .delete {
+        padding-left: 20px;
+        float: right;
+        opacity: 0.5;
+    }
+
+    .delete:hover {
+        transform: scale(1.1);
+    }
+    
 
     .time-edit {
         margin-top: -10px;

@@ -11,9 +11,7 @@
 
 <script>
 export default {
-    setup() {
-        
-    },
+
 }
 </script>
 
@@ -21,7 +19,7 @@ export default {
     .news {
         position: absolute;
         top: 18px;
-        left: 1070px;
+        left: 1120px;
     }
 
     img {

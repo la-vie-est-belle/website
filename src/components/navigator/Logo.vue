@@ -1,5 +1,5 @@
 <template>
-    <router-link to='/'>
+    <router-link to='/blog'>
         <img class="logo" :src="currentLogo.pic" :alt="currentLogo.name" width="47" height="47">
     </router-link>
 </template>
