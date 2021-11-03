@@ -24,13 +24,7 @@ export default {
     },
 
     mounted() {
-        this.$watch(
-            () => this.$route.params,
-            () => {
-                this.getCategories()
-            },
-            { immediate: true}
-        )
+        this.getCategories()
     },
 
     methods: {
@@ -99,6 +93,7 @@ export default {
 
     .card:hover {
         transform: scale(1.1);
+        font-weight: bold;
     }
 
     .name {

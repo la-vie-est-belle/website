@@ -37,7 +37,9 @@ export default {
             },
             categoryArray: [],
             category: '',
-            isEditing: false
+            articleUuid: null,          // 如果articleUuid存在，说明当前编辑的是已发布文章
+            draftUuid: null             // 如果draftUuid存在，说明当前编辑的是草稿
+                                        // 如果两个都为null，则表示新文章
         }
     },
 
@@ -45,12 +47,38 @@ export default {
         ckeditor: CKEditor.component
     },
 
+    beforeRouteLeave(to, from, next) {
+        const choice = confirm('是否确定离开？')
+        if (choice) {
+            next()
+        }
+        else {
+            next(false)
+        }
+    },
+    
+    created() {
+        // 为了修复以下bug
+        // 当在编辑草稿或文章时，直接点了头像下的开始创作
+        // 此时页面将保留草稿或文章的数据，必须先清除才行
+        this.$watch(
+            () => this.$route.query,
+            () => {
+                this.title = ''
+                this.content = ''
+                this.categoryArray = []
+                this.category = ''
+                this.articleUuid = null
+                this.draftUuid = null
+            }
+        )
+    },
+
     mounted() {
-        let uuid = this.$route.query.uuid
-        if (uuid) {
-            this.isEditing = true
+        if (this.$route.query.articleUuid) {
+            this.articleUuid = this.$route.query.articleUuid
             let data = {
-                uuid: uuid
+                uuid: this.articleUuid
             }
             this.axios.post('/blog/getArticle', {data:data}).then((res)=>{
                 let data = res.data
@@ -60,6 +88,18 @@ export default {
                 for (let i=0; i<data.categories.length; i++) {
                     this.categoryArray.push(data.categories[i].name)
                 }
+            })
+        }
+        else if (this.$route.query.draftUuid) {
+            this.draftUuid = this.$route.query.draftUuid
+            let data = {
+                uuid: this.draftUuid
+            }
+            this.axios.post('/blog/getDraft', {data:data}).then((res)=>{
+                let data = res.data
+                this.title = data.title
+                this.content = data.content
+                this.categoryArray = data.categories.split(' ')
             })
         }
     },
@@ -85,37 +125,20 @@ export default {
             }
 
             // 将文章信息发送到服务端存储
-
-
-            if (this.isEditing) {
-                console.log('更新')
-                let articleData = {
-                    'title': this.title,
-                    'content': this.content,
-                    'categoryArray': this.categoryArray,
-                    'uuid': this.$route.query.uuid
-                }
-
-                this.axios.post('/blog/publish', {data:articleData}).then((res)=>{
-                    console.log(res)
-                    alert('更新成功')
-                    // let articleId = res.data.articleId
-                    // this.$router.push(`/blog/${articleId}`)
-                })
+            let data = {
+                title: this.title,
+                content: this.content,
+                categoryArray: this.categoryArray,
+                articleUuid: this.articleUuid,
+                draftUuid: this.draftUuid
             }
-            else {
-                let articleData = {
-                    'title': this.title,
-                    'content': this.content,
-                    'categoryArray': this.categoryArray
-                }
 
-                this.axios.post('/blog/publish', {data:articleData}).then((res)=>{
-                    console.log(res)
+            this.axios.post('/blog/publish', {data:data}).then((res)=>{
+                if (res.status == 200) {
                     alert('发布成功')
                     this.$router.push('/blog')
-                })
-            }
+                }
+            })
         },
 
         saveDraft() {
@@ -139,14 +162,17 @@ export default {
 
             // 将文章信息发送到服务端存储
             let articleData = {
-                'title': this.title,
-                'content': this.content,
-                'categoryArray': this.categoryArray
+                title: this.title,
+                content: this.content,
+                categoryArray: this.categoryArray,
+                draftUuid: this.draftUuid,
+                articleUuid: this.articleUuid
             }
 
             this.axios.post('/blog/save', {data:articleData}).then((res)=>{
-                console.log(res)
-                alert('存储成功')
+                if (res.status == 200) {
+                    alert('保存成功')
+                }
             })
         },
 
@@ -165,7 +191,7 @@ export default {
                 return
             }
             
-            if (this.categoryArray.length > 5) {
+            if (this.categoryArray.length >= 5) {
                 alert('最多输入5个分类')
                 return
             }
@@ -188,7 +214,7 @@ export default {
         EnteredCategories() {
             return this.categoryArray
         }
-    }
+    },
 }
 </script>
 

@@ -7,7 +7,7 @@
     <div v-if="isShown" class="avatar-board" @mouseover="showPanel" @mouseout="hidePanel">
         <div><router-link to="/blog/compose" @click="hidePanel()">开始创作</router-link></div>
         <hr>
-        <div><a href="javascript:;">文章草稿</a></div>
+        <div><router-link to="/blog/draft" @click="hidePanel()">文章草稿</router-link></div>
         <hr>
         <div><router-link to="/blog/verify" @click="hidePanel()">评论管理</router-link></div>
         <hr>

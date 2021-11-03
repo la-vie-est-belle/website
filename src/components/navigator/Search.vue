@@ -43,11 +43,6 @@ export default {
         font-size: 15px;
     }
 
-    /* .search-input:focus {
-        outline: none;
-        width: 300px;
-    } */
-
     .search-icon {
         position: relative;
         top: 4px;

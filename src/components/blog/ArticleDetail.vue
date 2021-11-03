@@ -69,7 +69,7 @@ export default {
 
         edit(uuid) {
             // 编辑文章
-            this.$router.push({name:'compose', query:{uuid:uuid}})
+            this.$router.push({name:'compose', query:{articleUuid:uuid}})
         },
 
         thumbUp(uuid) {
@@ -119,17 +119,6 @@ export default {
     computed: {
         currentArticle() {
             let index = parseInt(this.$route.path.split('/')[2]) - 1
-            console.log ({
-                id: this.articles[index].id,
-                title: this.articles[index].title,
-                content: this.articles[index].content,
-                createTime: this.articles[index].createTime,
-                thumbUpCount: this.articles[index].thumbUpCount,
-                visitCount: this.articles[index].visitCount,
-                comments: this.articles[index].comments,
-                categories: this.articles[index].categories,
-                uuid: this.articles[index].uuid
-            })
             return {
                 id: this.articles[index].id,
                 title: this.articles[index].title,

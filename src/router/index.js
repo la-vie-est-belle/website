@@ -50,10 +50,6 @@ const routes = [
         path: '/blog/category',
         component: () => import(/* webpackChunkName: "blog" */ '@/components/blog/ArticleAbstract.vue'),
       },
-      {
-        path: '/blog/draft',
-        component: () => import(/* webpackChunkName: "blog" */ '@/components/blog/ArticleAbstract.vue'),
-      },
     ]
   },
   {
@@ -71,6 +67,14 @@ const routes = [
       title: '评论审核'
     },
     component: () => import(/* webpackChunkName: "blog" */ '@/components/blog/Verify.vue'),
+  },
+  {
+    path: '/blog/draft',
+    name: 'draft',
+    meta: {
+      title: '文章草稿'
+    },
+    component: () => import(/* webpackChunkName: "blog" */ '@/components/blog/Draft.vue'),
   },
   {
     path: '/store',
