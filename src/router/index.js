@@ -46,14 +46,14 @@ const routes = [
         path: '/blog/:id(\\d+)',
         component: () => import(/* webpackChunkName: "blog" */ '@/components/blog/ArticleDetail.vue'),
       },
-      // {
-      //   path: '/blog/cate',
-      //   component: () => import(/* webpackChunkName: "blog" */ '@/components/blog/ArticleDetail.vue'),
-      // },
-      // {
-      //   path: '/blog/draft',
-      //   component: () => import(/* webpackChunkName: "blog" */ '@/components/blog/ArticleDetail.vue'),
-      // },
+      {
+        path: '/blog/category',
+        component: () => import(/* webpackChunkName: "blog" */ '@/components/blog/ArticleAbstract.vue'),
+      },
+      {
+        path: '/blog/draft',
+        component: () => import(/* webpackChunkName: "blog" */ '@/components/blog/ArticleAbstract.vue'),
+      },
     ]
   },
   {

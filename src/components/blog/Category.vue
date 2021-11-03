@@ -5,7 +5,7 @@
         </div>
         <hr>
         <div>
-            <div class="card" v-for="item in categories" :key="item.id">
+            <div class="card" v-for="item in categories" :key="item.id" @click="getSpecificArticles(item.name)">
                 <span class="name">{{ item.name }}</span>
                 <span>{{ item.articles.length }}篇</span>
             </div>
@@ -42,6 +42,18 @@ export default {
             })
             .catch((error) => console.log(error))
         },
+
+        getSpecificArticles(name) {
+            let data = {
+                name: name
+            }
+
+            this.axios.post('/blog/getSpecificArticles', {data:data}).then((res)=>{
+                if (res.status == 200) {
+                    this.$emit('specific', res.data)
+                }
+            })
+        }
     },
 }
 </script>

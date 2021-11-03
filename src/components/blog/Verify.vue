@@ -100,6 +100,7 @@ export default {
 <style scoped>
     .verify {
         text-align: center;
+        min-height: calc(100vh);
     }
 
     table {

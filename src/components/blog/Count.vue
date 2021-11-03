@@ -45,7 +45,6 @@ export default {
                 thumbUpCount += this.articles[i].thumbUpCount
                 commentCount += this.articles[i].comments.length
             }
-
             if (visitCount / 10000 > 1) {
                 visitCount = Math.floor(visitCount / 10000) + '万+'
             }

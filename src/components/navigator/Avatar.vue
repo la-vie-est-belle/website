@@ -54,7 +54,7 @@ export default {
     .avatar-board {
         position: relative;
         top: 15px;
-        left: 1140px;
+        left: 1150px;
         width: 110px;
         background: white;
         border-radius: 10px;
