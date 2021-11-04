@@ -15,9 +15,17 @@ const routes = [
     }
   },
   {
+    path: '/self',
+    name: 'self',
+    component: () => import(/* webpackChunkName: "search" */ '../views/Self.vue'),
+    meta: {
+      title: '个人中心'
+    }
+  },
+  {
     path: '/search',
     name: 'search',
-    component: () => import(/* webpackChunkName: "search" */ '../views/Search.vue'),
+    component: () => import(/* webpackChunkName: "search" */ '../views/SearchResult.vue'),
     meta: {
       title: '搜索'
     }

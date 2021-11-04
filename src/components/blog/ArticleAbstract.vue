@@ -1,7 +1,7 @@
 <template>
-    <div v-for="(item, index) in articles" :key="item.id" class="article-abstract">
+    <div v-for="(item, index) in articles" :key="index" class="article-abstract">
         <div class="title">
-            <router-link :to="'/blog/'+(index+1)"><h3>{{ item.title }}</h3></router-link>
+            <router-link :to="'/blog/'+(item.id)" @click="addVisitCount(item.uuid)"><h3>{{ item.title }}</h3></router-link>
         </div>
         <div class="intro">
             <p>{{ item.content.replace(regex, '').substring(0, 200).trim() + ' ...' }}</p>
@@ -26,6 +26,22 @@ export default {
             regex: /(<([^>]+)>)/ig
         }
     },
+
+    methods: {
+         addVisitCount(uuid) {
+            let data = {
+                uuid: uuid,
+            }
+
+            this.axios.post('/blog/article/addVisitCount', {data:data}).then((res)=>{
+                if (res.status == 200) {
+                    // 更新访问数
+                }
+            }).catch((err)=>{
+                alert(err)
+            })
+        },
+    }
 }
 </script>
 

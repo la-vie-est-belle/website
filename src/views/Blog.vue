@@ -10,7 +10,7 @@
                 <OtherLinks />
             </div>
             <div class="article-area">
-                <a class="all-articles" href="javascript:;" @click="getArticles">全部文章</a>
+                <a class="all-articles" href="javascript:;" @click="showAllArticles">全部文章</a>
                 <router-view :articles="articles"></router-view>
                 <!-- <pagination :hide-on-single-page="false" :page-size="[2, 10, 20, 40] " @current-change="handleCurrentChange" :current-page="pageNum" 
                                layout="total, prev, pager, next, jumper" :total="10"></pagination> -->
@@ -41,15 +41,31 @@ export default {
     },
 
     mounted() {
-        this.getArticles()
+        this.$watch(
+            () => this.$route.params,
+            () => {
+                this.getArticles()
+            },
+            {immediate: true}
+        )
     },
 
     methods: {
+        showAllArticles() {
+            // 如果在/blog页面点了分类，那如果要显示全部的文章，则需要调用getArticles()
+            if (this.$route.path == '/blog') {
+                this.getArticles()
+            }
+            // 如果是在其他页面，只用跳到/blog处就行，因为watch在检测，会自动调用getArticles()
+            else {
+                this.$router.push('/blog')
+            }
+        },
+
         getArticles() {
             this.axios.get('/blog/getArticles').then((res) => {
                 if (res.status == 200) {
                     this.articles = res.data
-                    this.$router.push('/blog')
                 }
             })
             .catch((error) => console.log(error))

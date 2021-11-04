@@ -1,5 +1,5 @@
 <template>
-    <div class="article-detail">
+    <div class="article-detail" v-if="currentArticle">
         <div class="title">
             <div>
                 <h2>{{ currentArticle.title }}</h2>
@@ -27,7 +27,7 @@
         </div>
     </div>
     
-    <div class="comment-area">
+    <div class="comment-area" v-if="currentArticle">
         <Comment :articleId="currentArticle.id" />
     </div>
 </template>
@@ -47,26 +47,10 @@ export default {
     },
 
     mounted() {
-        this.addVisitCount()
+        document.documentElement.scrollTop = 0;
     },
 
     methods: {
-        addVisitCount() {
-            let data = {
-                uuid: this.currentArticle.uuid,
-            }
-
-            this.axios.post('/blog/article/addVisitCount', {data:data}).then((res)=>{
-                if (res.status == 200) {
-                    // 前端更新点赞数
-                    this.currentArticle.visitCount++
-                    this.$forceUpdate()
-                }
-            }).catch((err)=>{
-                alert(err)
-            })
-        },
-
         edit(uuid) {
             // 编辑文章
             this.$router.push({name:'compose', query:{articleUuid:uuid}})
@@ -118,18 +102,30 @@ export default {
 
     computed: {
         currentArticle() {
-            let index = parseInt(this.$route.path.split('/')[2]) - 1
-            return {
-                id: this.articles[index].id,
-                title: this.articles[index].title,
-                content: this.articles[index].content,
-                createTime: this.articles[index].createTime,
-                thumbUpCount: this.articles[index].thumbUpCount,
-                visitCount: this.articles[index].visitCount,
-                comments: this.articles[index].comments,
-                categories: this.articles[index].categories,
-                uuid: this.articles[index].uuid
+            if (!this.articles) {
+                return null
             }
+            
+            let id = parseInt(this.$route.path.split('/')[2])
+            for (let i=0; i<this.articles.length; i++) {
+                if (this.articles[i].id != id) {
+                    continue
+                }
+    
+                return {
+                    id: this.articles[i].id,
+                    title: this.articles[i].title,
+                    content: this.articles[i].content,
+                    createTime: this.articles[i].createTime,
+                    thumbUpCount: this.articles[i].thumbUpCount,
+                    visitCount: this.articles[i].visitCount,
+                    comments: this.articles[i].comments,
+                    categories: this.articles[i].categories,
+                    uuid: this.articles[i].uuid
+                }
+            }
+
+            return null
         }
     },
 

@@ -35,6 +35,7 @@ export default {
                 language: 'zh-cn',
                 placeholder: 'This is where dream starts...',
             },
+            isLeaving: false,           // 该值如果是true，则不会在离开页面时出发confirm询问
             categoryArray: [],
             category: '',
             articleUuid: null,          // 如果articleUuid存在，说明当前编辑的是已发布文章
@@ -48,6 +49,11 @@ export default {
     },
 
     beforeRouteLeave(to, from, next) {
+        if (this.isLeaving) {
+            next()
+            return
+        }
+
         const choice = confirm('是否确定离开？')
         if (choice) {
             next()
@@ -58,9 +64,11 @@ export default {
     },
     
     created() {
-        // 为了修复以下bug
-        // 当在编辑草稿或文章时，直接点了头像下的开始创作
-        // 此时页面将保留草稿或文章的数据，必须先清除才行
+        /* 
+        为了修复以下bug：
+        当在编辑草稿或文章时，直接点了头像下的开始创作
+        此时页面将保留草稿或文章的数据，必须先清除才行
+        */
         this.$watch(
             () => this.$route.query,
             () => {
@@ -135,6 +143,7 @@ export default {
 
             this.axios.post('/blog/publish', {data:data}).then((res)=>{
                 if (res.status == 200) {
+                    this.isLeaving = true
                     alert('发布成功')
                     this.$router.push('/blog')
                 }

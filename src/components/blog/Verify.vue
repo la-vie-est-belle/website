@@ -21,7 +21,7 @@
                         <td>{{ item.user.username }}</td>
                         <td>{{ item.content }}</td>
                         <td>{{ item.createTime }}</td>
-                        <td style="text-align:justify">{{ item.article.title }}</td>
+                        <td>{{ item.article.title }}</td>
                         <td><button @click="verify(index)">通过</button> <button @click="deleteComment(index)">删除</button></td>
                     </tr>
                 </tbody>

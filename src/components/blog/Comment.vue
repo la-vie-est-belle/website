@@ -5,7 +5,7 @@
         </div>
         <hr>
         <div class="input-and-btn">
-            <input class="comment-input" placeholder="写下你的评论..." v-model="articleComment">
+            <input class="comment-input" placeholder="写下你的评论..." v-model="articleComment" @keydown.enter="commentToArticle">
             <button class="comment-btn" @click="commentToArticle">评论</button>
         </div>
         <br>
@@ -28,7 +28,7 @@
                     <span class="delete-btn" @click="deleteComment(parentItem.uuid, parentIndex)"><img src="@/assets/blog/delete.png" width="15" height="15"> 删除</span>
                 </div>
                 <div class="input-and-btn-reply" v-show="parentItem['isShown']">
-                    <input class="comment-input-reply" placeholder="写下你的评论..." v-model="childComment">
+                    <input class="comment-input-reply" placeholder="写下你的评论..." v-model="childComment" @keydown.enter="commentToComment(parentItem.uuid)">
                     <button class="comment-btn-reply" @click="commentToComment(parentItem.uuid)">评论</button>
                 </div>
             </div>
@@ -52,7 +52,7 @@
                         <span class="delete-btn" @click="deleteComment(childItem.uuid, childIndex)"><img src="@/assets/blog/delete.png" width="15" height="15"> 删除</span>
                     </div>
                     <div class="input-and-btn-reply" v-show="childItem['isShown']">
-                        <input class="child-comment-input-reply" placeholder="写下你的评论..." v-model="childComment">
+                        <input class="child-comment-input-reply" placeholder="写下你的评论..." v-model="childComment" @keydown.enter="commentToComment(parentItem.uuid)">
                         <button class="comment-btn-reply" @click="commentToComment(parentItem.uuid)">评论</button>
                     </div>
                 </div>
