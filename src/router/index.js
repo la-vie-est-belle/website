@@ -7,6 +7,14 @@ const routes = [
     redirect: '/blog'
   },
   {
+    path: '/auth',
+    name: 'auth',
+    component: () => import(/* webpackChunkName: "auth" */ '../views/Auth.vue'),
+    meta: {
+      title: '账户'
+    }
+  },
+  {
     path: '/home',
     name: 'home',
     component: Home,

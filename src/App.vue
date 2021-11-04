@@ -1,9 +1,11 @@
 <template>
-  <div id="nav">
+  <div id="nav" v-if="$route.path.indexOf('/auth')<0">
       <Navigator />
   </div>
   <router-view/>
-  <Footer />
+  <div v-if="$route.path.indexOf('/auth')<0">
+    <Footer />
+  </div>
 </template>
 
 <script>
@@ -11,9 +13,15 @@ import Navigator from '@/components/navigator/Navigator.vue'
 import Footer from '@/components/footer/Footer.vue'
 
 export default {
+  data() {
+    return {
+      isLogin: true
+    }
+  },
+
   components: {
     Navigator,
-    Footer
+    Footer,
   }
 }
 </script>

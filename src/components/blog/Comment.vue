@@ -13,7 +13,7 @@
             <div v-if="!parentItem.parentUuid">
                 <div class="first-line">
                     <div class="avatar-name">
-                        <span class="avatar"><img :src="parentItem.user.avatar" width="30" height="30"></span>
+                        <span class="avatar"><img :src="`data:image/svg+xml;utf8,${parentItem.user.avatar}`" width="30" height="30"></span>
                         <span class="name"><strong>&nbsp;{{ parentItem.user.username }}</strong></span>
                     </div>
                     <span class="time"><strong>{{ parentItem.createTime }}</strong></span>
@@ -37,7 +37,7 @@
                 <div v-if="childItem.parentUuid && childItem.parentUuid==parentItem.uuid">
                     <div class="first-line">
                         <div class="avatar-name">
-                            <span class="avatar"><img :src="childItem.user.avatar" width="30" height="30"></span>
+                            <span class="avatar"><img :src="`data:image/svg+xml;utf8,${childItem.user.avatar}`" width="30" height="30"></span>
                             <span class="name"><strong>&nbsp;{{ childItem.user.username }}</strong></span>
                         </div>
                         <span class="time"><strong>{{ childItem.createTime }}</strong></span>
