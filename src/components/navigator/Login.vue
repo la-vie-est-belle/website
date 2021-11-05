@@ -13,8 +13,8 @@ export default {
 
 <style scoped>
     .login {
-        position: fixed;
-        right: 200px;
+        position: absolute;
+        left: 1140px;
         top: 20px;
     }
 

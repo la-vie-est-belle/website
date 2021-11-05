@@ -26,8 +26,9 @@ export default {
 
     computed: {
         currentLogo() {
-            let logo = this.logos[this.$route.path.split('/')[1]]
-            return  logo ? logo : this.logos.home
+            // let logo = this.logos[this.$route.path.split('/')[1]]
+            return  this.logos.blog
+            // return  logo ? logo : this.logos.home
         },
     }
 }

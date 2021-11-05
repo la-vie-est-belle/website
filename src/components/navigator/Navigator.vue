@@ -4,7 +4,7 @@
             <Logo />
             <Menus />
             <Search />
-            <div v-if="isLogin">
+            <div v-if="user">
                 <Avatar />
             </div>
             <div v-else>
@@ -20,6 +20,7 @@ import Menus from './Menus.vue'
 import Search from './Search.vue'
 import Avatar from './Avatar.vue'
 import Login from './Login.vue'
+import {mapState} from 'vuex'
 
 export default {
     name: 'Navigator',
@@ -35,6 +36,13 @@ export default {
         Search,
         Avatar,
         Login
+    },
+
+    computed: {
+        ...mapState([
+            'user'
+        ])
+
     }
 }
 </script>

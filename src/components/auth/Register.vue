@@ -1,32 +1,95 @@
 <template>
     <div class="register">
         <div class="register-frame-bg">
-            <div class="form">
-                <div>
-                    <span><img src="@/assets/auth/account.png" width="18" height="18"></span>
-                    <input type="text" placeholder="请输入账号" autofocus required/>
+            <form @submit.prevent="register">
+                <div class="form">
+                    <div>
+                        <span><img src="@/assets/auth/account.png" width="18" height="18"></span>
+                        <input type="text" placeholder="请输入账号" @blur="checkUsername" v-model.trim="username" autofocus required/>
+                    </div>
+                    <div>
+                        <span><img src="@/assets/auth/email.png" width="19" height="19"></span>
+                        <input type="email" placeholder="请输入邮箱" @blur="checkEmail" v-model.trim="email" required/>
+                    </div>
+                    <div>
+                        <span><img src="@/assets/auth/password.png" width="18" height="18"></span>
+                        <input type="password" placeholder="请输入密码" v-model.trim="password" required/>
+                    </div>
+                    <div>
+                        <span><img src="@/assets/auth/password.png" width="18" height="18"></span>
+                        <input type="password" placeholder="请确认密码" v-model.trim="confirmedPassword" required/>
+                    </div>
                 </div>
-                <div>
-                    <span><img src="@/assets/auth/email.png" width="19" height="19"></span>
-                    <input type="email" placeholder="请输入邮箱" required/>
-                </div>
-                <div>
-                    <span><img src="@/assets/auth/password.png" width="18" height="18"></span>
-                    <input type="password" placeholder="请输入密码" required/>
-                </div>
-                <div>
-                    <span><img src="@/assets/auth/password.png" width="18" height="18"></span>
-                    <input type="password" placeholder="请确认密码" required/>
-                </div>
-            </div>
-            <button class="register-btn">注册</button>
+                <button class="register-btn" type="submit">注册</button>
+            </form>
         </div>
     </div> 
 </template>
 
 <script>
+import sha256 from 'crypto-js/sha256'
+
 export default {
-    
+    data() {
+        return {
+            username: '',
+            email: '',
+            password: '',
+            confirmedPassword: ''
+        }
+    },
+
+    methods: {
+        checkUsername() {
+            if (!this.username) {
+                return
+            }
+            this.axios.post('/auth/checkUsername', {data:{username:this.username}}).then((res)=>{
+                if (res.data == 'no') {
+                    alert('用户名已存在')
+                }
+            }).catch((err)=>{alert(err)})
+        },
+
+        checkEmail() {
+            if (!this.email) {
+                return
+            }
+            this.axios.post('/auth/checkEmail', {data:{email:this.email}}).then((res)=>{
+                if (res.data == 'no') {
+                    alert('邮箱已存在')
+                    return
+                }
+            }).catch((err)=>{alert(err)})
+        },
+
+        register() {
+            if (!this.username || !this.email || !this.password || !this.confirmedPassword) {
+                return
+            }
+
+            if (this.password != this.confirmedPassword) {
+                alert('两次密码输入不一致')
+                return
+            }
+
+            let data = {
+                username: this.username,
+                password: sha256(this.password).toString(),
+                email: this.email
+            }
+
+            this.axios.post('/auth/register', {data: data}).then((res)=>{
+                if (res.status == 200 && res.data == 'ok') {
+                    alert('注册成功')
+                    this.$router.push('/auth?login=true')
+                }
+                else {
+                    alert(res.data)
+                }
+            }).catch((err)=>{alert(err)})
+        }
+    }
 }
 </script>
 

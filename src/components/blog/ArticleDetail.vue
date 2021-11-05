@@ -6,8 +6,8 @@
             </div>
             <div class="time-edit">
                 <span>{{ currentArticle.createTime }}</span>
-                <span class="delete"><a href="javascript:;" @click="deleteArticle(currentArticle.uuid)"><img src="@/assets/blog/delete.png" width="18" height="18"></a></span>
-                <span class="edit"><a href="javascript:;" @click="edit(currentArticle.uuid)"><img src="@/assets/blog/compose.png" width="18" height="18"></a></span>
+                <span v-if="user && user.isAdmin" class="delete"><a href="javascript:;" @click="deleteArticle(currentArticle.uuid)"><img src="@/assets/blog/delete.png" width="18" height="18"></a></span>
+                <span v-if="user && user.isAdmin" class="edit"><a href="javascript:;" @click="edit(currentArticle.uuid)"><img src="@/assets/blog/compose.png" width="18" height="18"></a></span>
             </div>
         </div>
         <hr>
@@ -34,6 +34,7 @@
 
 <script>
 import Comment from '@/components/blog/Comment.vue'
+import {mapState} from 'vuex'
 
 export default {
     props: {
@@ -126,7 +127,11 @@ export default {
             }
 
             return null
-        }
+        },
+
+        ...mapState([
+            'user'
+        ])
     },
 
     components: {

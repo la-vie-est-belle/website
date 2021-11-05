@@ -8,8 +8,11 @@
         <div v-if="$route.query.login">
             <Login />
         </div>
-        <div v-if="$route.query.register">
+        <div v-else-if="$route.query.register">
             <Register />
+        </div>
+        <div v-else-if="$route.query.forget">
+            <Forget />
         </div>
     </div>
 </template>
@@ -17,6 +20,8 @@
 <script>
 import Login from '@/components/auth/Login.vue'
 import Register from '@/components/auth/Register.vue'
+import Forget from '@/components/auth/Forget.vue'
+
 
 export default ({
     data() {
@@ -27,7 +32,8 @@ export default ({
 
     components: {
         Login,
-        Register
+        Register,
+        Forget
     }
 })
 </script>

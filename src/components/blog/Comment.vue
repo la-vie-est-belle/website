@@ -13,8 +13,11 @@
             <div v-if="!parentItem.parentUuid">
                 <div class="first-line">
                     <div class="avatar-name">
-                        <span class="avatar"><img :src="`data:image/svg+xml;utf8,${parentItem.user.avatar}`" width="30" height="30"></span>
-                        <span class="name"><strong>&nbsp;{{ parentItem.user.username }}</strong></span>
+                        <span class="avatar"><img :src="`data:image/svg+xml;utf8,${parentItem.user.avatar}`" width="33" height="33"></span>
+                        <div class="name-intro">
+                            <span class="name"><strong>&nbsp;{{ parentItem.user.username }}</strong></span>
+                            <span class="intro">&nbsp;&nbsp;简介：{{ parentItem.user.intro }}</span>
+                        </div>
                     </div>
                     <span class="time"><strong>{{ parentItem.createTime }}</strong></span>
                 </div>
@@ -25,7 +28,7 @@
                     <span class="thumb-up-btn" @click="thumbUp(parentItem.uuid, parentIndex)"><img :style="thumbUpBiggerIndex==parentIndex ? 'transform: scale(1.25)': ''" src="@/assets/blog/thumb-up.png" width="18" height="15"> {{ parentItem.thumbUpCount }}</span>
                     <span class="thumb-down-btn" @click="thumbDown(parentItem.uuid, parentIndex)"><img :style="thumbDownBiggerIndex==parentIndex ? 'transform: scale(1.25)': ''" src="@/assets/blog/thumb-down.png" width="18" height="15"> {{ parentItem.thumbDownCount }}</span>
                     <span class="reply-btn" @click="reply(parentIndex)"><img src="@/assets/blog/comment.png" width="18" height="15"> {{ parentItem['isShown'] ? '取消回复' : '回复' }}</span>
-                    <span class="delete-btn" @click="deleteComment(parentItem.uuid, parentIndex)"><img src="@/assets/blog/delete.png" width="15" height="15"> 删除</span>
+                    <span v-if="user && user.isAdmin" class="delete-btn" @click="deleteComment(parentItem.uuid, parentIndex)"><img src="@/assets/blog/delete.png" width="15" height="15"> 删除</span>
                 </div>
                 <div class="input-and-btn-reply" v-show="parentItem['isShown']">
                     <input class="comment-input-reply" placeholder="写下你的评论..." v-model="childComment" @keydown.enter="commentToComment(parentItem.uuid)">
@@ -33,12 +36,15 @@
                 </div>
             </div>
 
-            <div style="margin-left:36px" class="comment-content" v-for="(childItem, childIndex) in comments" :key="childItem.id">
+            <div style="margin-left:39px" class="comment-content" v-for="(childItem, childIndex) in comments" :key="childItem.id">
                 <div v-if="childItem.parentUuid && childItem.parentUuid==parentItem.uuid">
                     <div class="first-line">
                         <div class="avatar-name">
-                            <span class="avatar"><img :src="`data:image/svg+xml;utf8,${childItem.user.avatar}`" width="30" height="30"></span>
-                            <span class="name"><strong>&nbsp;{{ childItem.user.username }}</strong></span>
+                            <span class="avatar"><img :src="`data:image/svg+xml;utf8,${childItem.user.avatar}`" width="33" height="33"></span>
+                            <div class="name-intro">
+                                <span class="name"><strong>&nbsp;{{ childItem.user.username }}</strong></span>
+                                <span class="intro">&nbsp;&nbsp;简介：{{ childItem.user.intro }}</span>
+                            </div>
                         </div>
                         <span class="time"><strong>{{ childItem.createTime }}</strong></span>
                     </div>
@@ -49,7 +55,7 @@
                         <span class="thumb-up-btn" @click="thumbUp(childItem.uuid, childIndex)"><img :style="thumbUpBiggerIndex==childIndex ? 'transform: scale(1.25)': ''" src="@/assets/blog/thumb-up.png" width="18" height="15"> {{ childItem.thumbUpCount }}</span>
                         <span class="thumb-down-btn" @click="thumbDown(childItem.uuid, childIndex)"><img :style="thumbDownBiggerIndex==childIndex ? 'transform: scale(1.25)': ''" src="@/assets/blog/thumb-down.png" width="18" height="15"> {{ childItem.thumbDownCount }}</span>
                         <span class="reply-btn" @click="reply(childIndex)"><img src="@/assets/blog/comment.png" width="18" height="15"> {{ childItem['isShown'] ? '取消回复' : '回复' }}</span>
-                        <span class="delete-btn" @click="deleteComment(childItem.uuid, childIndex)"><img src="@/assets/blog/delete.png" width="15" height="15"> 删除</span>
+                        <span v-if="user && user.isAdmin" class="delete-btn" @click="deleteComment(childItem.uuid, childIndex)"><img src="@/assets/blog/delete.png" width="15" height="15"> 删除</span>
                     </div>
                     <div class="input-and-btn-reply" v-show="childItem['isShown']">
                         <input class="child-comment-input-reply" placeholder="写下你的评论..." v-model="childComment" @keydown.enter="commentToComment(parentItem.uuid)">
@@ -57,11 +63,14 @@
                     </div>
                 </div>
             </div>
+            <hr>
         </div>
     </div>
 </template>
 
 <script>
+import {mapState} from 'vuex'
+
 export default {
     props: {
         articleId: Number
@@ -84,7 +93,11 @@ export default {
     computed: {
         allComments() {
             return this.comments
-        }
+        },
+
+        ...mapState([
+            'user'
+        ])
     },
 
     methods: {
@@ -109,8 +122,15 @@ export default {
                 return
             }
 
+            if (!this.user) {
+                alert('请先登录')
+                this.$router.push('/auth?login=true')
+                return
+            }
+
             // 还要再加个user
             let data = {
+                username: this.user.username,
                 articleId: this.articleId,
                 commentContent: this.articleComment
             }
@@ -133,12 +153,19 @@ export default {
                 return
             }
 
+            if (!this.user) {
+                alert('请先登录')
+                this.$router.push('/auth?login=true')
+                return
+            }
+
             let articleId = this.$route.path.split('/')[2]
 
             // 还要再加个user
             let data = {
                 uuid: uuid,
                 articleId: articleId,
+                username: this.user.username,
                 commentContent: this.childComment
             }
 
@@ -318,13 +345,29 @@ export default {
         align-items: center;
     }
 
+    .name-intro {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        position: relative;
+        top: -2px;
+    }
+
+    .name-intro .intro {
+        font-size: 5px;
+    }
+
     .second-line, .third-line {
-        padding-left: 35px;
+        padding-left: 39px;
         padding-bottom: 10px;
+        position: relative;
+        top: 5px;
     }
 
     .third-line span {
         padding-right: 10px;
+        position: relative;
+        top: -3px;
     }
 
     .input-and-btn-reply {

@@ -1,36 +1,70 @@
 <template>
     <div class="login">
         <div class="frame-bg">
-            <div class="form">
-                <div>
-                    <span><img src="@/assets/auth/account.png" width="18" height="18"></span>
-                    <input type="text" placeholder="请输入账号" autofocus required/>
+            <form @submit.prevent="login">
+                <div class="form">
+                    <div>
+                        <span><img src="@/assets/auth/account.png" width="18" height="18"></span>
+                        <input type="text" placeholder="请输入账号或邮箱" v-model.trim="username" autofocus required/>
+                    </div>
+                    <div>
+                        <span><img src="@/assets/auth/password.png" width="18" height="18"></span>
+                        <input type="password" placeholder="请输入密码" v-model.trim="password" required/>
+                    </div>
                 </div>
-                <div>
-                    <span><img src="@/assets/auth/password.png" width="18" height="18"></span>
-                    <input type="password" placeholder="请输入密码" required/>
+                <div class="forget-link">
+                    <router-link to="/auth?forget=true">忘记密码?</router-link>
                 </div>
-            </div>
-            <div class="forget">
-                <a href="javascript:;">忘记密码?</a>
-            </div>
-            <button class="login-btn">登录</button>
+                <div class="visitor-link">
+                    <router-link to="/blog">游客浏览</router-link>
+                </div>
+                <button type="submit" class="login-btn">登录</button>
+            </form>
         </div>
     </div> 
 </template>
 
 <script>
+import sha256 from 'crypto-js/sha256'
+import {mapMutations} from 'vuex'
+
 export default {
     data() {
         return {
-
+            username: '',
+            password: ''
         }
     },
 
     methods: {
         login() {
+            if (!this.username || !this.password) {
+                return
+            }
 
-        }
+            let data = {
+                username: this.username,
+                password: sha256(this.password).toString(),
+            }
+
+            this.axios.post('/auth/login', {data:data}).then((res)=>{
+                if (res.status==200) {
+                    if (res.data != 'no') {
+                        this.setUser(res.data)
+                        this.$router.push('/')
+                    }
+                    else {
+                        alert('账号或密码错误')
+                        this.username = ''
+                        this.password = ''
+                    }
+                }
+            }).catch((err)=>{alert(err)})
+        },
+
+        ...mapMutations ([
+            'setUser'
+        ])
     }
 }
 </script>
@@ -82,7 +116,7 @@ export default {
 
     .login-btn {
         position: relative;
-        top: 45px;
+        top: 28px;
         width: 200px;
         height: 35px;
         background-color: #0066ff;
@@ -101,13 +135,24 @@ export default {
         background-color: #0550c0f1;
     }
 
-    .forget {
+    .forget-link {
         position: relative;
         top: 30px;
         left: 187px;
     }
 
-    .forget a {
+    .forget-link a {
+        color: #0550c0f1;
+        text-decoration: none;
+    }
+
+    .visitor-link {
+        position: relative;
+        top: 6px;
+        left: -190px;
+    }
+
+    .visitor-link a {
         color: #0550c0f1;
         text-decoration: none;
     }
