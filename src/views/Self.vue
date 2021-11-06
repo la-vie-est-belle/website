@@ -12,10 +12,10 @@
                 <!-- <div class="self-password"><span>密码：</span><input type="text" v-model.trim="newPassword" :disabled="isPasswordDisabled" /><span><a href="javascript:;" @click="changeDisabledState">&nbsp;{{ isPasswordDisabled ? '点击修改' : '确认修改' }}</a></span></div> -->
             </div>
             <div class="self-days">
-                <p>今天是你来的第{{ howMany }}天</p>
+                <p>今天是你来的第{{ days }}天</p>
             </div>
             <div class="beautiful-sentence">
-                <p>今日事，今日毕。</p>
+                <p>{{ motto }}</p>
             </div>
         </div>
     </div>
@@ -28,15 +28,37 @@ export default ({
     data() {
         return {
             isIntroDisabled: true,
-            howMany: 1
+            days: 0,
+            motto: ''
         }
     },
 
     mounted () {
         // 计算注册时间和现在的时间差
+        this.getDays()
+        this.getMotto()
     },
 
     methods: {
+        getDays() {
+            if (!this.user) {
+                return
+            }
+
+            let s1 = new Date(this.user.createTime.split(' ')[0]);
+            let s2 = new Date();    //当前日期：2017-04-24
+            let d = s2.getTime() - s1.getTime();
+            this.days = parseInt(d / (1000 * 60 * 60 * 24)) + 1;
+        },
+
+        getMotto() {
+            let mottos = ['今日事，今日毕。', '为中华之崛起而读书。', '业精于勤，荒于嬉；行成于思，毁于随。', '知之者不如好之者，好之者不如乐之者。',
+                          '学而不思则罔，思而不学则殆。', '我这个人走得很慢，但是我从不后退。', '天下之事常成于困约，而败于奢靡。', '抛弃时间的人，时间也抛弃他。',
+                          '最困难的事情就是认识自己。']
+            let index = Math.floor(Math.random() * mottos.length)
+            this.motto = mottos[index]
+        },
+
         changeAvatar() {
             let data = {
                 username: this.user.username

@@ -12,9 +12,9 @@
                         <input type="password" placeholder="请输入密码" v-model.trim="password" required/>
                     </div>
                 </div>
-                <div class="forget-link">
+                <!-- <div class="forget-link">
                     <router-link to="/auth?forget=true">忘记密码?</router-link>
-                </div>
+                </div> -->
                 <div class="visitor-link">
                     <router-link to="/blog">游客浏览</router-link>
                 </div>
@@ -49,14 +49,18 @@ export default {
 
             this.axios.post('/auth/login', {data:data}).then((res)=>{
                 if (res.status==200) {
-                    if (res.data != 'no') {
-                        this.setUser(res.data)
-                        this.$router.push('/')
+                    console.log(res.data)
+                    if (res.data == 'unverified') {
+                        alert('账户未验证，请前往邮箱验证')
                     }
-                    else {
+                    else if (res.data == 'no') {
                         alert('账号或密码错误')
                         this.username = ''
                         this.password = ''
+                    }
+                    else {
+                        this.setUser(res.data)
+                        this.$router.push('/')
                     }
                 }
             }).catch((err)=>{alert(err)})
@@ -116,7 +120,7 @@ export default {
 
     .login-btn {
         position: relative;
-        top: 28px;
+        top: 40px;
         width: 200px;
         height: 35px;
         background-color: #0066ff;
@@ -148,7 +152,7 @@ export default {
 
     .visitor-link {
         position: relative;
-        top: 6px;
+        top: 30px;
         left: -190px;
     }
 

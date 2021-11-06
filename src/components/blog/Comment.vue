@@ -82,7 +82,9 @@ export default {
             articleComment: '',
             childComment: '',
             thumbUpBiggerIndex: null,
-            thumbDownBiggerIndex: null
+            thumbDownBiggerIndex: null,
+            thumbUpClickCount: 0,                   // 防止点赞过快
+            thumbDownClickCount: 0                  // 防止点踩过快
         }
     },
 
@@ -137,8 +139,10 @@ export default {
 
             this.axios.post('/blog/commentToArticle', {data:data}).then((res) => {
                 if (res.status == 200) {
+                    if (!this.user.isAdmin) {
+                        alert('评论成功，将在审核后显示~')
+                    }
                     this.articleComment = ''
-                    alert('评论成功，将在审核后显示~')
                     this.getComments()
                 }
 
@@ -171,8 +175,10 @@ export default {
 
             this.axios.post('/blog/commentToComment', {data:data}).then((res) => {
                 if (res.status == 200) {
+                    if (!this.user.isAdmin) {
+                        alert('评论成功，将在审核后显示~')
+                    }
                     this.childComment = ''
-                    alert('评论成功，将在审核后显示~')
                     this.getComments()
                 }
             }).catch((err) => console.log(err))
@@ -197,6 +203,21 @@ export default {
                     setTimeout(()=>{
                         this.thumbUpBiggerIndex = null
                     }, 100)
+
+                    // 防止点击过快
+                    this.thumbUpClickCount++
+                    setTimeout(()=>{
+                        if (this.thumbUpClickCount<0) {
+                            this.thumbUpClickCount = 0
+                        }
+                        else {
+                            this.thumbUpClickCount--
+                        }
+                    }, 400)
+                    if (this.thumbUpClickCount > 3) {
+                        alert('点的太快啦')
+                        this.thumbUpClickCount = 0
+                    }
                 }
             }).catch((err)=>{
                 alert(err)
@@ -215,11 +236,26 @@ export default {
                     this.allComments[index].thumbDownCount++
                     this.$forceUpdate()
                     
-                    // 点赞样式
+                    // 踩样式
                     this.thumbDownBiggerIndex = index
                     setTimeout(()=>{
                         this.thumbDownBiggerIndex = null
                     }, 100)
+
+                    // 防止点击过快
+                    this.thumbDownClickCount++
+                    setTimeout(()=>{
+                        if (this.thumbDownClickCount<0) {
+                            this.thumbDownClickCount = 0
+                        }
+                        else {
+                            this.thumbDownClickCount--
+                        }
+                    }, 400)
+                    if (this.thumbDownClickCount > 3) {
+                        alert('点的太快啦')
+                        this.thumbDownClickCount = 0
+                    }
                 }
             }).catch((err)=>{
                 alert(err)

@@ -81,7 +81,8 @@ export default {
 
             this.axios.post('/auth/register', {data: data}).then((res)=>{
                 if (res.status == 200 && res.data == 'ok') {
-                    alert('注册成功')
+                    alert('注册成功，已经发送验证邮箱，请尽快验证:)')
+                    this.axios.post('/auth/sendAuthLink', {data:{email: this.email}})
                     this.$router.push('/auth?login=true')
                 }
                 else {

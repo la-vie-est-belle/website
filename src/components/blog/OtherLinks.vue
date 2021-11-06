@@ -21,7 +21,7 @@
             </div>
 
             <div>
-                <a href="https://mp.weixin.qq.com/s/M_va0yeF9-wg-eYkMTEIMQ" target="_blank"><img src="@/assets/blog/wechat.png" width="38" height="38"></a>
+                <a href="https://img-blog.csdnimg.cn/20191014172427969.jpg" target="_blank"><img src="@/assets/blog/wechat.png" width="38" height="38"></a>
                 <p>公众号</p>
             </div>
         </div>

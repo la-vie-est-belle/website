@@ -14,7 +14,7 @@
         
         <div v-if="user && user.isAdmin"><router-link to="/blog/verify" @click="hidePanel">评论管理 <span class="num" v-if="nums.commentNum">{{ nums.commentNum }}</span></router-link><hr></div>
         
-        <div><router-link to="/message" @click="hidePanel">我的消息 <span class="num" v-if="nums.messageNum">{{ nums.messageNum }}</span></router-link><hr></div>
+        <!-- <div><router-link to="/message" @click="hidePanel">我的消息 <span class="num" v-if="nums.messageNum">{{ nums.messageNum }}</span></router-link><hr></div> -->
         
         <div><router-link to="/blog" @click="clearUser">退出登录</router-link></div>
     </div>
@@ -37,12 +37,14 @@ export default {
     },
 
     mounted() {
-        this.$watch(
-            () => this.$route.params,
-            () => {
-                this.getNums()
-            }
-        )
+        if(this.user.isAdmin) {
+            this.$watch(
+                () => this.$route.params,
+                () => {
+                    this.getNums()
+                }
+            )
+        }
     },
 
     computed: {

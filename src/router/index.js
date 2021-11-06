@@ -11,7 +11,7 @@ const routes = [
     name: 'auth',
     component: () => import(/* webpackChunkName: "auth" */ '../views/Auth.vue'),
     meta: {
-      title: '账户'
+      title: '登录'
     }
   },
   {
@@ -51,7 +51,7 @@ const routes = [
     name: 'blog',
     component: () => import(/* webpackChunkName: "blog" */ '../views/Blog.vue'),
     meta: {
-      title: '博客'
+      title: '仍梦的博客'
     },
     children: [
       {

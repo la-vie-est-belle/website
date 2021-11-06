@@ -11,16 +11,16 @@
         <div v-else-if="$route.query.register">
             <Register />
         </div>
-        <div v-else-if="$route.query.forget">
+        <!-- <div v-else-if="$route.query.forget">
             <Forget />
-        </div>
+        </div> -->
     </div>
 </template>
 
 <script>
 import Login from '@/components/auth/Login.vue'
 import Register from '@/components/auth/Register.vue'
-import Forget from '@/components/auth/Forget.vue'
+// import Forget from '@/components/auth/Forget.vue'
 
 
 export default ({
@@ -33,7 +33,7 @@ export default ({
     components: {
         Login,
         Register,
-        Forget
+        // Forget
     }
 })
 </script>
