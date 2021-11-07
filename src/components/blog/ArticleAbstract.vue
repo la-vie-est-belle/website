@@ -1,18 +1,21 @@
 <template>
-    <div v-for="(item, index) in articles" :key="index" class="article-abstract">
-        <div class="title">
-            <router-link :to="'/blog/'+(item.id)" @click="addVisitCount(item.uuid)"><h3>{{ item.title }}</h3></router-link>
-        </div>
-        <div class="intro">
-            <p>{{ item.content.replace(regex, '').substring(0, 200).trim() + ' ...' }}</p>
-        </div>
-        <div class="func">
-            <span class="time">{{ item.createTime }}</span>
-            <span class="visit"><img src="@/assets/blog/visit.png" width="18" height="13">{{ item.visitCount }}</span>
-            <span class="comment"><img src="@/assets/blog/comment.png" width="18" height="13">{{ item.comments.length }}</span>
-            <span class="thumb-up"><img src="@/assets/blog/thumb-up.png" width="17" height="15">{{ item.thumbUpCount }}</span>
+    <div v-if="articles && articles.length">
+        <div v-for="(item, index) in articles" :key="index" class="article-abstract">
+            <div class="title">
+                <router-link :to="'/blog/'+(item.id)" @click="addVisitCount(item.uuid)"><h3>{{ item.title }}</h3></router-link>
+            </div>
+            <div class="intro">
+                <p>{{ item.content.replace(regex, '').substring(0, 200).trim() + ' ...' }}</p>
+            </div>
+            <div class="func">
+                <span class="time">{{ item.createTime }}</span>
+                <span class="visit"><img src="@/assets/blog/visit.png" width="18" height="13">{{ item.visitCount }}</span>
+                <span class="comment"><img src="@/assets/blog/comment.png" width="18" height="13">{{ item.comments.length }}</span>
+                <span class="thumb-up"><img src="@/assets/blog/thumb-up.png" width="17" height="15">{{ item.thumbUpCount }}</span>
+            </div>
         </div>
     </div>
+
 </template>
 
 <script>

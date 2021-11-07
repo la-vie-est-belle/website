@@ -10,7 +10,7 @@
         </div>
         <br>
         <div class="comment-content" v-for="(parentItem, parentIndex) in allComments" :key="parentItem.id">
-            <div v-if="!parentItem.parentUuid">
+            <div v-if="parentItem && !parentItem.parentUuid">
                 <div class="first-line">
                     <div class="avatar-name">
                         <span class="avatar"><img :src="`data:image/svg+xml;utf8,${parentItem.user.avatar}`" width="33" height="33"></span>

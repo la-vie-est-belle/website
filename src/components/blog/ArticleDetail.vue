@@ -153,6 +153,10 @@ export default {
         box-shadow: 0px 1px 3px 0 rgba(0, 0, 0, 0.2);
     }
 
+    .article-content >>> img {
+        max-width: 100%;
+    }
+
     hr {
         border: 0px;
         background-color: whitesmoke;

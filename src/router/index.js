@@ -1,5 +1,6 @@
 import { createRouter, createWebHistory } from 'vue-router'
 import Home from '../views/Home.vue'
+import store from '../store'
 
 const routes = [
   {
@@ -27,7 +28,7 @@ const routes = [
     name: 'self',
     component: () => import(/* webpackChunkName: "search" */ '../views/Self.vue'),
     meta: {
-      title: '个人中心'
+      title: '个人中心',
     }
   },
   {
@@ -43,7 +44,7 @@ const routes = [
     name: 'message',
     component: () => import(/* webpackChunkName: "search" */ '../views/Message.vue'),
     meta: {
-      title: '消息'
+      title: '消息',
     }
   },
   {
@@ -68,7 +69,8 @@ const routes = [
     path: '/blog/compose',
     name: 'compose',
     meta: {
-      title: '写作'
+      title: '写作',
+      requireAuth: true
     },
     component: () => import(/* webpackChunkName: "blog" */ '@/components/blog/Compose.vue'),
   },
@@ -76,7 +78,8 @@ const routes = [
     path: '/blog/verify',
     name: 'verify',
     meta: {
-      title: '评论审核'
+      title: '评论审核',
+      requireAuth: true
     },
     component: () => import(/* webpackChunkName: "blog" */ '@/components/blog/Verify.vue'),
   },
@@ -84,7 +87,8 @@ const routes = [
     path: '/blog/draft',
     name: 'draft',
     meta: {
-      title: '文章草稿'
+      title: '文章草稿',
+      requireAuth: true
     },
     component: () => import(/* webpackChunkName: "blog" */ '@/components/blog/Draft.vue'),
   },
@@ -127,16 +131,47 @@ const routes = [
     meta: {
       title: '菜单'
     }
+  },
+  {
+    path: "/404",
+    name: "NotFound",
+    component: () => import(/* webpackChunkName: "error" */ '../views/NotFound.vue'),
+    meta: {
+      title: 'NotFound'
+    }
+  },
+  {
+    path: "/:catchAll(.*)",
+    redirect: "/404"
   }
 ]
 
 const router = createRouter({
   history: createWebHistory(process.env.BASE_URL),
+  // history: createWebHashHistory(),
   routes
+})
+
+router.beforeEach((to, from, next) => {
+  // 权限验证
+  if (to.matched.some(record=>record.meta.requireAuth)) {
+    let user = store.state.user
+    if (user && user.isAdmin) {
+      next()
+    }
+    else {
+      next('/auth?login=true')
+    }
+  }
+  else {
+    next()
+  }
 })
 
 router.afterEach( to => {
   document.title = to.meta.title
+  // let h = window.location.href.split('/')
+  // history.pushState({}, to.meta.title, `http://localhost:8080${h[4]}/${h[5]}`)
 })
 
 export default router

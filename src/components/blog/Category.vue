@@ -4,7 +4,7 @@
             <h4>文章分类</h4>
         </div>
         <hr>
-        <div>
+        <div v-if="categories">
             <div class="card" v-for="item in categories" :key="item.id" @click="getSpecificArticles(item.name)">
                 <span class="name">{{ item.name }}</span>
                 <span>{{ item.articles.length }}篇</span>

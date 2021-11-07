@@ -49,7 +49,6 @@ export default {
 
             this.axios.post('/auth/login', {data:data}).then((res)=>{
                 if (res.status==200) {
-                    console.log(res.data)
                     if (res.data == 'unverified') {
                         alert('账户未验证，请前往邮箱验证')
                     }

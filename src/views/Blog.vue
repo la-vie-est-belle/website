@@ -10,7 +10,7 @@
                 <OtherLinks />
             </div>
             <div class="article-area">
-                <a class="all-articles" href="javascript:;" @click="showAllArticles">全部文章</a>
+                <a v-if="articles && articles.length" class="all-articles" href="javascript:;" @click="showAllArticles">全部文章</a>
                 <router-view :articles="articles"></router-view>
                 <!-- <pagination :hide-on-single-page="false" :page-size="[2, 10, 20, 40] " @current-change="handleCurrentChange" :current-page="pageNum" 
                                layout="total, prev, pager, next, jumper" :total="10"></pagination> -->
