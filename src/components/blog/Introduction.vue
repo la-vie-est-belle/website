@@ -5,7 +5,7 @@
             <img style="border-radius:50%" src="@/assets/rm_avatar.jpeg" width="100" height="100">
         </div>
         <div class="title">
-            <h2>仍梦</h2>
+            <h2>ren_meng</h2>
         </div>
         <div class="motto">
             <h4>仰望星空，以梦为马</h4>

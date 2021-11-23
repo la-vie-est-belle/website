@@ -11,6 +11,6 @@ app.use(router)
 app.use(VueAxios, axios)
 app.mount('#app')
 
-axios.defaults.baseURL = 'http://120.26.91.107:8888'
+axios.defaults.baseURL = 'https://renmeng.site:8888'
 // axios.defaults.baseURL = '/'
 

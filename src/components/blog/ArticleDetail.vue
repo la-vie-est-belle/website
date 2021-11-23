@@ -58,6 +58,12 @@ export default {
         },
 
         thumbUp(uuid) {
+            if (!this.user) {
+                alert('请先登录')
+                this.$router.push('/auth?login=true')
+                return
+            }
+            
             let data = {
                 uuid: uuid,
             }

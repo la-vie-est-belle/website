@@ -52,7 +52,7 @@ const routes = [
     name: 'blog',
     component: () => import(/* webpackChunkName: "blog" */ '../views/Blog.vue'),
     meta: {
-      title: '仍梦的博客'
+      title: '博客'
     },
     children: [
       {
@@ -170,8 +170,6 @@ router.beforeEach((to, from, next) => {
 
 router.afterEach( to => {
   document.title = to.meta.title
-  // let h = window.location.href.split('/')
-  // history.pushState({}, to.meta.title, `http://localhost:8080${h[4]}/${h[5]}`)
 })
 
 export default router

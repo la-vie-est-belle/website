@@ -3,7 +3,7 @@
         <hr>
         <div>
             <div class="intro">
-                <p><small>still dream in {{ year }} © respectヾ(≧∇≦*)ゝ</small></p>
+                <p><small>still dream in {{ year }} © respect ヾ(≧∇≦*)ゝ</small></p>
             </div>
             <div class="links">
                 <a href="https://www.zhihu.com/people/la-vie-est-belle" target="_blank">知乎</a>

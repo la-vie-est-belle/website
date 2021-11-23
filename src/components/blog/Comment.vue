@@ -187,6 +187,12 @@ export default {
         },
 
         thumbUp(uuid, index) {
+            if (!this.user) {
+                alert('请先登录')
+                this.$router.push('/auth?login=true')
+                return
+            }
+
             let data = {
                 uuid: uuid,
             }
@@ -225,6 +231,12 @@ export default {
         },
 
         thumbDown(uuid, index) {
+            if (!this.user) {
+                alert('请先登录')
+                this.$router.push('/auth?login=true')
+                return
+            }
+            
             let data = {
                 uuid: uuid,
             }
