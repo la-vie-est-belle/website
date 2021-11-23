@@ -130,7 +130,6 @@ export default {
                 return
             }
 
-            // 还要再加个user
             let data = {
                 username: this.user.username,
                 articleId: this.articleId,

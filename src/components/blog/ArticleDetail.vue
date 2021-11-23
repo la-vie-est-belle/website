@@ -41,6 +41,10 @@ export default {
         articles: Array
     },
 
+    components: {
+        Comment
+    },
+
     data() {
         return {
             thumbUpImgStyle: ''
@@ -139,10 +143,6 @@ export default {
             'user'
         ])
     },
-
-    components: {
-        Comment
-    }
 }
 </script>
 

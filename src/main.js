@@ -12,5 +12,4 @@ app.use(VueAxios, axios)
 app.mount('#app')
 
 axios.defaults.baseURL = 'https://renmeng.site:8888'
-// axios.defaults.baseURL = '/'
 

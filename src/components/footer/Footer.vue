@@ -53,6 +53,4 @@ export default {
         height: 0.5px;
         opacity: 0.2;
     }
-
-
 </style>

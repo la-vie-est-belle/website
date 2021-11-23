@@ -26,7 +26,7 @@ const routes = [
   {
     path: '/self',
     name: 'self',
-    component: () => import(/* webpackChunkName: "search" */ '../views/Self.vue'),
+    component: () => import(/* webpackChunkName: "self" */ '../views/Self.vue'),
     meta: {
       title: '个人中心',
     }
@@ -42,7 +42,7 @@ const routes = [
   {
     path: '/message',
     name: 'message',
-    component: () => import(/* webpackChunkName: "search" */ '../views/Message.vue'),
+    component: () => import(/* webpackChunkName: "message" */ '../views/Message.vue'),
     meta: {
       title: '消息',
     }
@@ -148,7 +148,6 @@ const routes = [
 
 const router = createRouter({
   history: createWebHistory(process.env.BASE_URL),
-  // history: createWebHashHistory(),
   routes
 })
 
