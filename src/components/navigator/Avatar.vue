@@ -16,7 +16,7 @@
         
         <!-- <div><router-link to="/message" @click="hidePanel">我的消息 <span class="num" v-if="nums.messageNum">{{ nums.messageNum }}</span></router-link><hr></div> -->
         
-        <div><router-link to="/blog" @click="clearUser">退出登录</router-link></div>
+        <div><router-link to="/blog" @click="logout">退出登录</router-link></div>
     </div>
 </template>
 
@@ -77,6 +77,11 @@ export default {
                     this.nums.commentNum = data.commentNum
                 }
             })
+        },
+
+        logout() {
+            this.clearUser();
+            sessionStorage.removeItem('user');
         },
 
         ...mapMutations([

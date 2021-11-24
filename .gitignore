@@ -1,8 +1,8 @@
 .DS_Store
 node_modules
-dist
-router
-store
+/dist
+/src/router
+/src/store
 main.js
 
 # local env files

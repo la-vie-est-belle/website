@@ -59,6 +59,7 @@ export default {
                     }
                     else {
                         this.setUser(res.data)
+                        sessionStorage.setItem('user', JSON.stringify(res.data))
                         this.$router.push('/')
                     }
                 }

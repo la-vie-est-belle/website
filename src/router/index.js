@@ -52,7 +52,7 @@ const routes = [
     name: 'blog',
     component: () => import(/* webpackChunkName: "blog" */ '../views/Blog.vue'),
     meta: {
-      title: '博客'
+      title: 'ren_meng - 个人博客'
     },
     children: [
       {
@@ -152,6 +152,8 @@ const router = createRouter({
 })
 
 router.beforeEach((to, from, next) => {
+  store.commit('setUser', JSON.parse(sessionStorage.getItem('user')))
+
   // 权限验证
   if (to.matched.some(record=>record.meta.requireAuth)) {
     let user = store.state.user

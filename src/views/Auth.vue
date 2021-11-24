@@ -40,7 +40,7 @@ export default ({
 
 <style scoped>
     .auth {
-        background-image: url('../assets/auth/bg.jpeg');
+        background-image: url('../assets/auth/bg.jpg');
         background-size: cover;
         min-height: calc(100vh);
         width: 1500px;
